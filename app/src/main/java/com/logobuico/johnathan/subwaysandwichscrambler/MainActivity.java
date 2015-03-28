@@ -1,19 +1,38 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import android.app.ListActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+
+import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ListActivity {
+    private IngredientDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        datasource = new IngredientDataSource(this);
+        datasource.open();
+
     }
 
+    public void onClick(View view){
+        @SuppressWarnings("unchecked")
+        ArrayAdapter<Ingredient> adapter = (ArrayAdapter<Ingredient>) getListAdapter();
+        adapter.clear();
+        List<Ingredient> values = datasource.getAllIngredients();
+        adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_expandable_list_item_1,values);
+        setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,5 +54,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onResume() {
+        datasource.open();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        datasource.close();
+        super.onPause();
     }
 }
