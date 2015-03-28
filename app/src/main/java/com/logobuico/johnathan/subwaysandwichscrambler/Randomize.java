@@ -13,23 +13,23 @@ import java.util.Random;
  */
 public class Randomize {
 
-    public Map getRandomizedIngredients() {
+    public Map<String,ArrayList> getRandomizedIngredients() {
         @SuppressWarnings("unchecked")
 
 
         Map<String, ArrayList> ingredients = new HashMap<>();
-        ArrayList sizeA = new ArrayList();
-        ArrayList baconA = new ArrayList();
-        ArrayList doubleMeatA = new ArrayList();
-        ArrayList meatA = new ArrayList();
-        ArrayList breadA = new ArrayList();
-        ArrayList doubleCheeseA = new ArrayList();
-        ArrayList cheeseA = new ArrayList();
-        ArrayList toastedA = new ArrayList();
-        ArrayList noVegA = new ArrayList();
-        ArrayList vegA = new ArrayList();
-        ArrayList dressingA = new ArrayList();
-        ArrayList seasoningsA = new ArrayList();
+        ArrayList<Ingredient> sizeA = new ArrayList<>();
+        ArrayList<Ingredient> baconA = new ArrayList<>();
+        ArrayList<Ingredient> doubleMeatA = new ArrayList<>();
+        ArrayList<Integer> meatA = new ArrayList<>();
+        ArrayList<Integer> breadA = new ArrayList<>();
+        ArrayList<Ingredient> doubleCheeseA = new ArrayList<>();
+        ArrayList<Integer> cheeseA = new ArrayList<>();
+        ArrayList<Ingredient> toastedA = new ArrayList<>();
+        ArrayList<Ingredient> noVegA = new ArrayList<>();
+        ArrayList<Integer> vegA = new ArrayList<>();
+        ArrayList<Integer> dressingA = new ArrayList<>();
+        ArrayList<Integer> seasoningsA = new ArrayList<>();
 
         int min = 1;
         Random r = new Random();
