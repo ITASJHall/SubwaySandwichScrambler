@@ -16,7 +16,7 @@ public class Ingredient {
     public String getItem() {
         return item;
     }
-    public void setComment(String item) {
+    public void setIngredient(String item) {
         this.item = item;
     }
     // Will be used by the ArrayAdapter in the ListView
