@@ -58,7 +58,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String CREATE_SUB_TABLE = "CREATE TABLE "
             + TABLE_SUBS + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
-            + " text not null);";
+            + " text not null, 'size' text not null, 'meat' text not null, " +
+            "'bread' text not null, 'cheese' text, 'toasted' text, 'veggies' text, " +
+            "'dressing' text not null, 'seasoning' text not null);";
 
     public void populateTables(SQLiteDatabase database) {
         ContentValues values = new ContentValues();
@@ -197,7 +199,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_CHEESE_TABLE);
         database.execSQL(CREATE_SEASONING_TABLE);
         database.execSQL(CREATE_VEGGIE_TABLE);
-        database.execSQL(CREATE_MEAT_TABLE);
+        database.execSQL(CREATE_SUB_TABLE);
         populateTables(database);
     }
 
