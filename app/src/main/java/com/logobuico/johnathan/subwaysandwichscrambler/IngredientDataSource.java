@@ -77,64 +77,76 @@ public class IngredientDataSource {
             Ingredient size = new Ingredient();
             size.setIngredient(random.get("Size").get(0).toString());
             ingredients.add(size);
+            Log.i("Subway",""+size.toString());
         }
         if (random.containsKey("DoubleMeat")) {
             Ingredient doubleMeat = new Ingredient();
             doubleMeat.setIngredient(random.get("DoubleMeat").get(0).toString());
             ingredients.add(doubleMeat);
+            Log.i("Subway",""+doubleMeat.toString());
         }
         if (random.containsKey("Meat")) {
             for (int i = 0; i < random.get("Meat").size(); i++) {
                 int meat = Integer.parseInt(random.get("Meat").get(i).toString());
                 ingredients.add(getIngredient(6, meat));
+                Log.i("Subway","meat "+meat);
             }
         }
         if (random.containsKey("Bread")) {
             int bread = Integer.parseInt(random.get("Bread").get(0).toString());
             ingredients.add(getIngredient(1, bread));
+            Log.i("Subway","bread "+bread);
         }
         if (random.containsKey("Bacon")) {
             Ingredient bacon = new Ingredient();
             bacon.setIngredient(random.get("Bacon").toString());
             ingredients.add(bacon);
+            Log.i("Subway",""+bacon.toString());
         }
         if (random.containsKey("DoubleCheese")) {
             Ingredient doubleCheese = new Ingredient();
             doubleCheese.setIngredient(random.get("DoubleCheese").toString());
             ingredients.add(doubleCheese);
+            Log.i("Subway",""+doubleCheese.toString());
         }
         if (random.containsKey("Cheese")) {
             for (int i = 0; i < random.get("Cheese").size(); i++) {
                 int cheese = Integer.parseInt(random.get("Cheese").get(i).toString());
                 ingredients.add(getIngredient(3, cheese));
+                Log.i("Subway","cheese "+cheese);
             }
         }
         if (random.containsKey("Toasted")) {
             Ingredient toasted = new Ingredient();
-            toasted.setIngredient(random.get("Toast").toString());
+            toasted.setIngredient(random.get("Toasted").toString());
             ingredients.add(toasted);
+            Log.i("Subway",""+toasted.toString());
         }
         if (random.containsKey("NoVeg")) {
             Ingredient noVeg = new Ingredient();
             noVeg.setIngredient(random.get("NoVeg").toString());
             ingredients.add(noVeg);
+            Log.i("Subway",""+noVeg.toString());
         }
         if (random.containsKey("Veg")) {
             for (int i = 0; i < random.get("Veg").size(); i++) {
                 int veg = Integer.parseInt(random.get("Veg").get(i).toString());
                 ingredients.add(getIngredient(5, veg));
+                Log.i("Subway","veg "+veg);
             }
         }
         if (random.containsKey("Dressing")) {
             for (int i = 0; i < random.get("Dressing").size(); i++) {
                 int dressing = Integer.parseInt(random.get("Dressing").get(i).toString());
                 ingredients.add(getIngredient(2, dressing));
+                Log.i("Subway","dressing "+dressing);
             }
         }
-        if (random.containsKey("Seasoning")) {
+        if (random.containsKey("Seasonings")) {
             for (int i = 0; i < random.get("Seasonings").size(); i++) {
                 int seasonings = Integer.parseInt(random.get("Seasonings").get(i).toString());
                 ingredients.add(getIngredient(3, seasonings));
+                Log.i("Subway","seasonings "+seasonings);
             }
         }
         return ingredients;
@@ -146,6 +158,5 @@ public class IngredientDataSource {
         ingredient.setIngredient(cursor.getString(1));
         return ingredient;
     }
-
 
 }

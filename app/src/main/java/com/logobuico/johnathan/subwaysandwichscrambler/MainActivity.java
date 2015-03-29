@@ -3,6 +3,7 @@ package com.logobuico.johnathan.subwaysandwichscrambler;
 import android.app.ListActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,18 +21,23 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
 
         datasource = new IngredientDataSource(this);
-        datasource.open();
+
+        ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(this,
+                android.R.layout.simple_list_item_1);
+        setListAdapter(adapter);
 
     }
 
     public void onClick(View view){
-        @SuppressWarnings("unchecked")
-        ArrayAdapter<Ingredient> adapter = (ArrayAdapter<Ingredient>) getListAdapter();
-        adapter.clear();
-        List<Ingredient> values = datasource.getAllIngredients();
-        adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_expandable_list_item_1,values);
-        setListAdapter(adapter);
-        adapter.notifyDataSetChanged();
+       @SuppressWarnings("unchecked")
+       ArrayAdapter<Ingredient> adapter = (ArrayAdapter<Ingredient>) getListAdapter();
+       datasource.open();
+       adapter.clear();
+       List<Ingredient> values = datasource.getAllIngredients();
+      //  adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_expandable_list_item_1,values);
+       // setListAdapter(adapter);
+       // adapter.notifyDataSetChanged();
+       datasource.close();
     }
 
     @Override

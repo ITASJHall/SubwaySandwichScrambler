@@ -38,7 +38,7 @@ public class Randomize {
         ran[1] = r.nextInt(21 - min) + min; //double meat
         ran[2] = r.nextInt(21 - min) + min; //add bacon
         ran[3] = r.nextInt(20 - min) + min; //meat
-        ran[4] = r.nextInt(13 - min) + min; //number of veg
+        ran[4] = r.nextInt(12 - min) + min; //number of veg
         ran[5] = r.nextInt(3 - min) + min; //toasted
         ran[6] = r.nextInt(3 - min) + min; //number of dressings
         ran[7] = r.nextInt(9 - min) + min; //bread
@@ -118,15 +118,20 @@ public class Randomize {
             noVegA.add(veg);
             ingredients.put("NoVeg", noVegA);
         } else if (ran[4] > 1 && ran[4] != 11) {
-            ArrayList<Integer> arrayThree = new ArrayList<Integer>();
-            for (int i = 1; i <= 11; i++) arrayThree.add(i);
+            ArrayList<Integer> arrayThree = new ArrayList<>();
+            for (int i = 1; i <= 11; i++)arrayThree.add(i);
             vegA.add(ran[10]);
-            arrayThree.remove(ran[10]);
-
+            int first = ran[10] - 1;
+            //Log.d("SubwayTest", "Compare  "+arrayThree.get((ran[10]-1))+" FIRST: "+arrayThree.get(first)+ " ORG: "+ran[10]);
+            arrayThree.remove(first);
+            //Log.d("SubwayTest", "num Veg "+ran[4]);
             for (int i = 1; i < ran[4]; i++) {
-                arrayTwo[10] = r.nextInt(arrayThree.size());
-                vegA.add(arrayTwo[10]);
-                arrayThree.remove(arrayTwo[10]);
+                //Log.d("SubwayTest", "A3 Size before "+arrayThree.size());
+                int index = r.nextInt(arrayThree.size());
+                //Log.d("SubwayTest", "Veg "+arrayThree.get(index));
+                vegA.add(arrayThree.get(index));
+                //Log.d("SubwayTest", "Compare "+arrayThree.get(index)+" INDEX: "+ index);
+                arrayThree.remove(index);
             }
 
             ingredients.put("Veg", vegA);
@@ -142,12 +147,13 @@ public class Randomize {
             dressingA.add(ran[11]);
             ingredients.put("Dressing", dressingA);
         } else {
+            ArrayList<Integer> arrayThree = new ArrayList<>();
+            for (int i = 1; i <= 9; i++)arrayThree.add(i);
+            int first = ran[11] - 1;
+            arrayThree.remove(first);
             dressingA.add(ran[11]);
-            arrayTwo[11] = r.nextInt(10 - min) + min;
-            while (arrayTwo[11] == ran[11]) {
-                arrayTwo[1] = r.nextInt(10 - min) + min;
-            }
-            dressingA.add(arrayTwo[11]);
+            arrayTwo[11] = r.nextInt(arrayThree.size());
+            dressingA.add(arrayThree.get(arrayTwo[11]));
             ingredients.put("Dressing", dressingA);
         }
 
@@ -161,12 +167,13 @@ public class Randomize {
                 seasoningsA.add(4);
                 ingredients.put("Seasonings", seasoningsA);
             } else {
+                ArrayList<Integer> arrayThree = new ArrayList<>();
+                for (int i = 1; i <= 4; i++)arrayThree.add(i);
+                int first = ran[9] - 1;
+                arrayThree.remove(first);
                 seasoningsA.add(ran[9]);
-                arrayTwo[9] = r.nextInt(5 - min) + min;
-                while (arrayTwo[9] == ran[9]) {
-                    arrayTwo[9] = r.nextInt(5 - min) + min;
-                }
-                seasoningsA.add(arrayTwo[9]);
+                arrayTwo[9] = r.nextInt(arrayThree.size());
+                seasoningsA.add(arrayThree.get(arrayTwo[9]));
                 ingredients.put("Seasonings", seasoningsA);
             }
         }
