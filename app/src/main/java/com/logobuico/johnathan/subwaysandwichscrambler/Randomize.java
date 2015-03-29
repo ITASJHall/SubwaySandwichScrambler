@@ -18,15 +18,15 @@ public class Randomize {
 
 
         Map<String, ArrayList> ingredients = new HashMap<>();
-        ArrayList<Ingredient> sizeA = new ArrayList<>();
-        ArrayList<Ingredient> baconA = new ArrayList<>();
-        ArrayList<Ingredient> doubleMeatA = new ArrayList<>();
+        ArrayList<String> sizeA = new ArrayList<>();
+        ArrayList<String> baconA = new ArrayList<>();
+        ArrayList<String> doubleMeatA = new ArrayList<>();
         ArrayList<Integer> meatA = new ArrayList<>();
         ArrayList<Integer> breadA = new ArrayList<>();
-        ArrayList<Ingredient> doubleCheeseA = new ArrayList<>();
+        ArrayList<String> doubleCheeseA = new ArrayList<>();
         ArrayList<Integer> cheeseA = new ArrayList<>();
-        ArrayList<Ingredient> toastedA = new ArrayList<>();
-        ArrayList<Ingredient> noVegA = new ArrayList<>();
+        ArrayList<String> toastedA = new ArrayList<>();
+        ArrayList<String> noVegA = new ArrayList<>();
         ArrayList<Integer> vegA = new ArrayList<>();
         ArrayList<Integer> dressingA = new ArrayList<>();
         ArrayList<Integer> seasoningsA = new ArrayList<>();
@@ -52,27 +52,27 @@ public class Randomize {
         int[] arrayTwo = new int[14];
 
         //Size of Sub
-        Ingredient size = new Ingredient();
+        String size;
         if (ran[0] == 1) {
-            size.setIngredient("6 inch");
+            size = "6 inch";
         } else {
-            size.setIngredient("Footlong");
+            size="Footlong";
         }
         sizeA.add(size);
         ingredients.put("Size", sizeA);
 
         //Adding bacon
         if (ran[2] == 5) {
-            Ingredient bacon = new Ingredient();
-            bacon.setIngredient("Add Bacon");
+            String bacon;
+            bacon="Add Bacon";
             baconA.add(bacon);
             ingredients.put("Bacon", baconA);
         }
 
         //Adding meat and double meat
         if (ran[1] == 20) {
-            Ingredient doubleMeat = new Ingredient();
-            doubleMeat.setIngredient("Double Meat");
+            String doubleMeat;
+            doubleMeat="Double Meat";
             doubleMeatA.add(doubleMeat);
             ingredients.put("DoubleMeat", doubleMeatA);
             arrayTwo[3] = r.nextInt(20 - min) + min;
@@ -90,8 +90,8 @@ public class Randomize {
 
         //adding cheese and double cheese
         if (ran[8] == 1) {
-            Ingredient doubleCheese = new Ingredient();
-            doubleCheese.setIngredient("Double Cheese");
+            String doubleCheese;
+            doubleCheese="Double Cheese";
             doubleCheeseA.add(doubleCheese);
             ingredients.put("DoubleCheese", doubleCheeseA);
             arrayTwo[12] = r.nextInt(5 - min) + min;
@@ -105,16 +105,16 @@ public class Randomize {
 
         //Is it Toasted
         if (ran[5] == 1) {
-            Ingredient toasted = new Ingredient();
-            toasted.setIngredient("Toasted");
+           String toasted ;
+            toasted="Toasted";
             toastedA.add(toasted);
             ingredients.put("Toasted", toastedA);
         }
 
         //Number of Veggies and adding that Number
         if (ran[4] == 1) {
-            Ingredient veg = new Ingredient();
-            veg.setIngredient("No Veg");
+           String veg ;
+            veg = "No Veg";
             noVegA.add(veg);
             ingredients.put("NoVeg", noVegA);
         } else if (ran[4] > 1 && ran[4] != 11) {
