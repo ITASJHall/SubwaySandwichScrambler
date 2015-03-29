@@ -33,7 +33,7 @@ public class Randomize {
 
         int min = 1;
         Random r = new Random();
-        int[] ran = new int[14];
+        int[] ran = new int[15];
         ran[0] = r.nextInt(3 - min) + min; //size
         ran[1] = r.nextInt(21 - min) + min; //double meat
         ran[2] = r.nextInt(21 - min) + min; //add bacon
@@ -42,7 +42,7 @@ public class Randomize {
         ran[5] = r.nextInt(3 - min) + min; //toasted
         ran[6] = r.nextInt(3 - min) + min; //number of dressings
         ran[7] = r.nextInt(9 - min) + min; //bread
-        ran[8] = r.nextInt(18 - min) + min; //double cheese
+        ran[8] = r.nextInt(18 - min) + min; //double cheese/no cheese
         ran[9] = r.nextInt(5 - min) + min; //seasons
         ran[10] = r.nextInt(12 - min) + min; //veggies
         ran[11] = r.nextInt(10 - min) + min; //dressing
@@ -70,7 +70,7 @@ public class Randomize {
         }
 
         //Adding meat and double meat
-        if (ran[1] == 20) {
+        if (ran[1] == 20 && ran[3]!=17) {
             String doubleMeat;
             doubleMeat="Double Meat";
             doubleMeatA.add(doubleMeat);
@@ -98,7 +98,12 @@ public class Randomize {
             cheeseA.add(arrayTwo[12]);
             cheeseA.add(ran[12]);
             ingredients.put("Cheese", cheeseA);
-        } else {
+        } else if(ran[8]==20) {
+            String noCheese;
+            noCheese="No Cheese";
+            doubleCheeseA.add(noCheese);
+            ingredients.put("DoubleCheese", doubleCheeseA);
+        }else {
             cheeseA.add(ran[12]);
             ingredients.put("Cheese", cheeseA);
         }
@@ -112,12 +117,12 @@ public class Randomize {
         }
 
         //Number of Veggies and adding that Number
-        if (ran[4] == 1) {
+        if (ran[4] == 1 && ran[3]!=16) {
            String veg ;
             veg = "No Veg";
             noVegA.add(veg);
             ingredients.put("NoVeg", noVegA);
-        } else if (ran[4] > 1 && ran[4] != 11) {
+        } else if (ran[4] > 0 && ran[4] != 11) {
             ArrayList<Integer> arrayThree = new ArrayList<>();
             for (int i = 1; i <= 11; i++)arrayThree.add(i);
             vegA.add(ran[10]);

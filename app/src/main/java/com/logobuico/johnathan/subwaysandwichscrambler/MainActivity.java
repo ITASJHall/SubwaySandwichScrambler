@@ -36,7 +36,6 @@ public class MainActivity extends ListActivity {
        List<Ingredient> values = datasource.getAllIngredients();
        adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_expandable_list_item_1,values);
        setListAdapter(adapter);
-       // adapter.notifyDataSetChanged();
        datasource.close();
     }
 
