@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,13 @@ public class IngredientDataSource {
         Ingredient entry = cursorToIngredient(cursor);
         cursor.close();
         return entry;
+    }
+
+    public void saveSub(ArrayAdapter sub){
+
+        for(int i=0;i<sub.getCount();i++) {
+            Log.i("SubwayTest",sub.getItem(i).toString());
+        }
     }
 
     public List<Ingredient> getAllIngredients() {

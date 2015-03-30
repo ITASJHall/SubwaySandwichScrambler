@@ -97,7 +97,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.insert(MySQLiteHelper.TABLE_DRESSING, null, values);
         values.put(MySQLiteHelper.COLUMN_NAME, "Mustard");
         database.insert(MySQLiteHelper.TABLE_DRESSING, null, values);
-        values.put(MySQLiteHelper.COLUMN_NAME, "Saracha");
+        values.put(MySQLiteHelper.COLUMN_NAME, "Sriracha");
         database.insert(MySQLiteHelper.TABLE_DRESSING, null, values);
         values.put(MySQLiteHelper.COLUMN_NAME, "Hot Sauce");
         database.insert(MySQLiteHelper.TABLE_DRESSING, null, values);
@@ -109,7 +109,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.insert(MySQLiteHelper.TABLE_CHEESE, null, values);
         values.put(MySQLiteHelper.COLUMN_NAME, "Cheddar");
         database.insert(MySQLiteHelper.TABLE_CHEESE, null, values);
-        values.put(MySQLiteHelper.COLUMN_NAME, "Shredded");
+        values.put(MySQLiteHelper.COLUMN_NAME, "Shredded Mozza");
         database.insert(MySQLiteHelper.TABLE_CHEESE, null, values);
 
         //adding seasonings

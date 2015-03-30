@@ -32,16 +32,16 @@ public class MainActivity extends ListActivity {
        @SuppressWarnings("unchecked")
        ArrayAdapter<Ingredient> adapter = (ArrayAdapter<Ingredient>) getListAdapter();
        datasource.open();
-       adapter.clear();
         switch (view.getId()) {
             case R.id.random:
+                adapter.clear();
                 List<Ingredient> values = datasource.getAllIngredients();
                 adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_expandable_list_item_1, values);
                 setListAdapter(adapter);
                 break;
             case R.id.save:
                 if (getListAdapter().getCount() > 0) {
-                    
+                    datasource.saveSub(adapter);
                 }
                 break;
         }

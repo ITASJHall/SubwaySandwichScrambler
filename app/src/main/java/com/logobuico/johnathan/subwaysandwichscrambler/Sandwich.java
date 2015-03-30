@@ -119,11 +119,11 @@ public class Sandwich {
         this.veggies.add(veggies);
     }
 
-    public void setDresssing(ArrayList<Ingredient> dressing) {
+    public void setDressing(ArrayList<Ingredient> dressing) {
         this.dressing = dressing;
     }
 
-    public void setDresssing(Ingredient dressing) {
+    public void setDressing(Ingredient dressing) {
         this.dressing.add(dressing);
     }
 
