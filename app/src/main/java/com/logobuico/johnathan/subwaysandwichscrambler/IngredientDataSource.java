@@ -65,7 +65,15 @@ public class IngredientDataSource {
         Ingredient entry = cursorToIngredient(cursor);
         cursor.close();
         return entry;
+    }
 
+    public Ingredient getSub(int id) {
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_SUBS,
+                allColumns, MySQLiteHelper.ID_COLUMN + " = " + id, null, null, null, null);
+        cursor.moveToFirst();
+        Ingredient entry = cursorToIngredient(cursor);
+        cursor.close();
+        return entry;
     }
 
     public List<Ingredient> getAllIngredients() {

@@ -23,7 +23,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
 
     private static final String DATABASE_NAME = "subway.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_CREATE = "create table "
             + TABLE_BREAD + "(" + ID_COLUMN
@@ -199,7 +199,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_CHEESE_TABLE);
         database.execSQL(CREATE_SEASONING_TABLE);
         database.execSQL(CREATE_VEGGIE_TABLE);
+        database.execSQL(CREATE_MEAT_TABLE);
         database.execSQL(CREATE_SUB_TABLE);
+        Log.i("Subway","Database Table "+CREATE_SUB_TABLE);
         populateTables(database);
     }
 
@@ -214,6 +216,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SEASONING);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_VEGGIE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEAT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBS);
         onCreate(db);
     }
 }
