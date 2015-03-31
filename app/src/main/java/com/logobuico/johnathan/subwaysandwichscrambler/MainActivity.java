@@ -4,14 +4,21 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,6 +29,11 @@ public class MainActivity extends ListActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -46,27 +58,37 @@ public class MainActivity extends ListActivity  {
                 break;
             case R.id.save:
                 if (getListAdapter().getCount() > 0) {
-
-
                     final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                    final EditText input = new EditText(this);
-                    alert.setView(input);
+                    alert.setTitle(R.string.save_title);
+                    LayoutInflater factory = LayoutInflater.from(this);
+                    final View textEntryView = factory.inflate(R.layout.text_entry, null);
+                    final EditText input1 = (EditText) textEntryView.findViewById(R.id.EditText1);
+                    final EditText input2 = (EditText) textEntryView.findViewById(R.id.EditText2);
+                    final RatingBar input3 = (RatingBar) textEntryView.findViewById(R.id.ratingBar);
+                    LayerDrawable stars = (LayerDrawable)input3.getProgressDrawable();
+                    stars.getDrawable(1).setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_ATOP);
+
+
+                    alert.setView(textEntryView);
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            String name = input.getText().toString().trim();
-                            datasource.saveSub(name);
+                            //datasource.open();
+                            String name = input1.getText().toString().trim();
+                            String comment = input2.getText().toString().trim();
+                            Log.i("SubRating",""+input3.getRating());
+                           // datasource.saveSub(name);
                             String save = "Saved";
                             Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
                         }
                     });
-
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.cancel();
                         }
                     });
                     alert.show();
-
                 }
                 break;
         }
