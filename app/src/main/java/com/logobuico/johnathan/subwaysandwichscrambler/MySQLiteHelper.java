@@ -23,7 +23,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
 
     private static final String DATABASE_NAME = "subway.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private static final String DATABASE_CREATE = "create table "
             + TABLE_BREAD + "(" + ID_COLUMN
@@ -58,9 +58,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String CREATE_SUB_TABLE = "CREATE TABLE "
             + TABLE_SUBS + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
-            + " text not null, 'size' text not null, 'meat' text not null, " +
-            "'bread' text not null, 'cheese' text, 'toasted' text, 'veggies' text, " +
-            "'dressing' text not null, 'seasoning' text not null);";
+            + " text not null, 'sub' not null);";
 
     public void populateTables(SQLiteDatabase database) {
         ContentValues values = new ContentValues();

@@ -59,7 +59,7 @@ public class Sandwich {
         return veggies;
     }
 
-    public ArrayList<Ingredient> getDresssing() {
+    public ArrayList<Ingredient> getDressing() {
         return dressing;
     }
 
@@ -147,8 +147,8 @@ public class Sandwich {
         str += getToasted() + "\n";
         str += getNoVeg() + "\n";
         for (int i = 0; i < getVeggies().size(); i++) str += getVeggies().get(i).getItem() + "\n";
-        for (int i = 0; i < getDresssing().size(); i++)
-            str += getDresssing().get(i).getItem() + "\n";
+        for (int i = 0; i < getDressing().size(); i++)
+            str += getDressing().get(i).getItem() + "\n";
         for (int i = 0; i < getSeasoning().size(); i++)
             str += getSeasoning().get(i).getItem() + "\n";
 
