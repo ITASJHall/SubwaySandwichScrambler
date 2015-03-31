@@ -1,11 +1,12 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Johnathan on 3/29/2015.
  */
-public class Sandwich {
+public class Sandwich implements Serializable {
     private long id;
     private String size;
     private String doubleMeat;
