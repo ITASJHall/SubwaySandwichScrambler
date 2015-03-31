@@ -1,5 +1,6 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,9 @@ public class IngredientDataSource {
     private MySQLiteHelper dbHelper;
     private String[] allColumns = {MySQLiteHelper.ID_COLUMN,
             MySQLiteHelper.COLUMN_NAME};
-    private Map<String, ArrayList> saveSub = new HashMap<>();
+    private String[] allSubColumns = {MySQLiteHelper.ID_COLUMN,
+            MySQLiteHelper.COLUMN_SUB};
+    private Map<String, ArrayList<Ingredient>> saveSub = new HashMap<>();
 
     public IngredientDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -70,20 +74,84 @@ public class IngredientDataSource {
         return entry;
     }
 
-    public Ingredient getSub(int id) {
+    public Sandwich getSub(int id) {
         Cursor cursor = database.query(MySQLiteHelper.TABLE_SUBS,
-                allColumns, MySQLiteHelper.ID_COLUMN + " = " + id, null, null, null, null);
-        cursor.moveToFirst();
-        Ingredient entry = cursorToIngredient(cursor);
-        cursor.close();
-        return entry;
+                allSubColumns, MySQLiteHelper.ID_COLUMN + " = " + id, null, null, null, null);
+        if (cursor.getCount() >0) {
+            cursor.moveToFirst();
+            String[] str=cursor.getColumnNames();
+            for (int i=0;i<str.length;i++) {
+                Log.d("GetSub", str[i]);
+            }
+            byte[] subByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SUB));
+            //Log.d("GetSub", ""+subByte);
+            Sandwich deserializedSub = (Sandwich) Serializer.deserializeObject(subByte);
+            cursor.close();
+            return deserializedSub;
+        }else{
+            Sandwich sub = new Sandwich();
+            return sub;
+        }
+
     }
 
     public void saveSub(){
         Sandwich subSandwich = new Sandwich();
         if (saveSub.containsKey("Size")) {
-            
+            String sizeStr = saveSub.get("Size").toString();
+            sizeStr = sizeStr.substring(1,(sizeStr.length()-1));
+            subSandwich.setSize(sizeStr);
         }
+        if (saveSub.containsKey("DoubleMeat")) {
+            String meatStr = saveSub.get("DoubleMeat").toString();
+            meatStr = meatStr.substring(1,(meatStr.length()-1));
+            subSandwich.setDoubleMeat(meatStr);
+        }
+        if (saveSub.containsKey("Meat")) {
+            subSandwich.setMeat(saveSub.get("Meat"));
+        }
+        if (saveSub.containsKey("Bread")) {
+            subSandwich.setBread(saveSub.get("Bread").get(0));
+        }
+        if (saveSub.containsKey("Bacon")) {
+            String baconStr = saveSub.get("Bacon").toString();
+            baconStr = baconStr.substring(1,(baconStr.length()-1));
+            subSandwich.setBacon(baconStr);
+        }
+        if (saveSub.containsKey("DoubleCheese")) {
+            String cheeseStr = saveSub.get("DoubleCheese").toString();
+            cheeseStr = cheeseStr.substring(1,(cheeseStr.length()-1));
+            subSandwich.setAmountOfCheese(cheeseStr);
+        }
+        if (saveSub.containsKey("Cheese")) {
+            subSandwich.setCheese(saveSub.get("Cheese"));
+        }
+        if (saveSub.containsKey("Toasted")) {
+            String toastStr = saveSub.get("Toasted").toString();
+            toastStr = toastStr.substring(1,(toastStr.length()-1));
+            subSandwich.setToasted(toastStr);
+        }
+        if (saveSub.containsKey("NoVeg")) {
+            String vegStr = saveSub.get("NoVeg").toString();
+            vegStr = vegStr.substring(1,(vegStr.length()-1));
+            subSandwich.setNoVeg(vegStr);
+        }
+        if (saveSub.containsKey("Veg")) {
+            subSandwich.setVeggies(saveSub.get("Veg"));
+        }
+        if (saveSub.containsKey("Dressing")) {
+            subSandwich.setDressing(saveSub.get("Dressing"));
+        }
+        if (saveSub.containsKey("Seasonings")) {
+            subSandwich.setSeasoning(saveSub.get("Seasonings"));
+        }
+        byte[] subBytes = Serializer.serializeObject(subSandwich);
+        ContentValues values = new ContentValues();
+        //values.put(MySQLiteHelper.COLUMN_NAME, "TestSub");
+        values.put(MySQLiteHelper.COLUMN_SUB, subBytes);
+        database.insert(MySQLiteHelper.TABLE_SUBS, null, values);
+        //Log.i("SaveSub",saveSub.toString() );
+        //Log.i("SaveSub",subSandwich.toString());
 
     }
 

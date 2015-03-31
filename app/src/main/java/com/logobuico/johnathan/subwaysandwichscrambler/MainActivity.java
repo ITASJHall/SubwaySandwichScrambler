@@ -42,6 +42,7 @@ public class MainActivity extends ListActivity {
             case R.id.save:
                 if (getListAdapter().getCount() > 0) {
                     datasource.saveSub();
+                    Log.i("SavedSub"," "+datasource.getSub(2));
                 }
                 break;
         }

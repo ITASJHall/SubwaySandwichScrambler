@@ -12,6 +12,7 @@ public class Sandwich implements Serializable {
     private String doubleMeat;
     private ArrayList<Ingredient> meat;
     private Ingredient bread;
+    private String bacon;
     private String amountOfCheese;
     private ArrayList<Ingredient> cheese;
     private String toasted;
@@ -38,6 +39,10 @@ public class Sandwich implements Serializable {
 
     public Ingredient getBread() {
         return bread;
+    }
+
+    public String getBacon() {
+        return bacon;
     }
 
     public String getAmountOfCheese() {
@@ -92,6 +97,10 @@ public class Sandwich implements Serializable {
         this.bread = bread;
     }
 
+    public void setBacon(String bacon) {
+        this.bacon = bacon;
+    }
+
     public void setAmountOfCheese(String amountOfCheese) {
         this.amountOfCheese = amountOfCheese;
     }
@@ -143,11 +152,19 @@ public class Sandwich implements Serializable {
                 "" + getDoubleMeat() + "\n";
         for (int i = 0; i < getMeat().size(); i++) str += getMeat().get(i).getItem() + "\n";
         str += getBread().getItem() + "\n";
+        str += getBacon() + "\n";
         str += getAmountOfCheese() + "\n";
-        for (int i = 0; i < getCheese().size(); i++) str += getCheese().get(i).getItem() + "\n";
+        if (getAmountOfCheese() == null) {
+            for (int i = 0; i < getCheese().size(); i++)
+                str += getCheese().get(i).getItem() + "\n";
+        }
         str += getToasted() + "\n";
-        str += getNoVeg() + "\n";
-        for (int i = 0; i < getVeggies().size(); i++) str += getVeggies().get(i).getItem() + "\n";
+        if (getNoVeg() == null)
+            str += getNoVeg() + "\n";
+        if (getNoVeg() == null) {
+            for (int i = 0; i < getVeggies().size(); i++)
+                str += getVeggies().get(i).getItem() + "\n";
+        }
         for (int i = 0; i < getDressing().size(); i++)
             str += getDressing().get(i).getItem() + "\n";
         for (int i = 0; i < getSeasoning().size(); i++)

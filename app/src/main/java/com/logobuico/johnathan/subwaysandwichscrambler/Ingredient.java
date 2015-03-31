@@ -1,9 +1,11 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import java.io.Serializable;
+
 /**
  * Created by Johnathan on 3/28/2015.
  */
-public class Ingredient {
+public class Ingredient implements Serializable {
     private long id;
     private String item;
 
