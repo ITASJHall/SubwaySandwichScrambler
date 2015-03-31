@@ -46,15 +46,17 @@ public class MainActivity extends ListActivity  {
                 break;
             case R.id.save:
                 if (getListAdapter().getCount() > 0) {
-                    //datasource.saveSub();
+
 
                     final AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     final EditText input = new EditText(this);
                     alert.setView(input);
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            String value = input.getText().toString().trim();
-                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                            String name = input.getText().toString().trim();
+                            datasource.saveSub(name);
+                            String save = "Saved";
+                            Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
                         }
                     });
 

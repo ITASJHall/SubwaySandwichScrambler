@@ -90,7 +90,7 @@ public class IngredientDataSource {
 
     }
 
-    public void saveSub(){
+    public void saveSub(String name){
         Sandwich subSandwich = new Sandwich();
         if (saveSub.containsKey("Size")) {
             String sizeStr = saveSub.get("Size").toString();
@@ -142,7 +142,7 @@ public class IngredientDataSource {
         }
         byte[] subBytes = Serializer.serializeObject(subSandwich);
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_NAME, "TestSub");
+        values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_SUB, subBytes);
         database.insert(MySQLiteHelper.TABLE_SUBS, null, values);
 
