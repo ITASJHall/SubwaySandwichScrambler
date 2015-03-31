@@ -79,12 +79,7 @@ public class IngredientDataSource {
                 allSubColumns, MySQLiteHelper.ID_COLUMN + " = " + id, null, null, null, null);
         if (cursor.getCount() >0) {
             cursor.moveToFirst();
-            String[] str=cursor.getColumnNames();
-            for (int i=0;i<str.length;i++) {
-                Log.d("GetSub", str[i]);
-            }
             byte[] subByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SUB));
-            //Log.d("GetSub", ""+subByte);
             Sandwich deserializedSub = (Sandwich) Serializer.deserializeObject(subByte);
             cursor.close();
             return deserializedSub;
@@ -147,11 +142,10 @@ public class IngredientDataSource {
         }
         byte[] subBytes = Serializer.serializeObject(subSandwich);
         ContentValues values = new ContentValues();
-        //values.put(MySQLiteHelper.COLUMN_NAME, "TestSub");
+        values.put(MySQLiteHelper.COLUMN_NAME, "TestSub");
         values.put(MySQLiteHelper.COLUMN_SUB, subBytes);
         database.insert(MySQLiteHelper.TABLE_SUBS, null, values);
-        //Log.i("SaveSub",saveSub.toString() );
-        //Log.i("SaveSub",subSandwich.toString());
+
 
     }
 

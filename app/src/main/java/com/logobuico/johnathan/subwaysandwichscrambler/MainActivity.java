@@ -1,6 +1,9 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ListActivity  {
     private IngredientDataSource datasource;
 
     @Override
@@ -41,8 +46,25 @@ public class MainActivity extends ListActivity {
                 break;
             case R.id.save:
                 if (getListAdapter().getCount() > 0) {
-                    datasource.saveSub();
-                    Log.i("SavedSub"," "+datasource.getSub(2));
+                    //datasource.saveSub();
+
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    final EditText input = new EditText(this);
+                    alert.setView(input);
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String value = input.getText().toString().trim();
+                            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+                    alert.show();
+
                 }
                 break;
         }
