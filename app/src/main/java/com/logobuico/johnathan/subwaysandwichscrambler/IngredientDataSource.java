@@ -91,6 +91,22 @@ public class IngredientDataSource {
 
     }
 
+    public List<Sandwich> getAllSubs(int id) {
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_SUBS,
+                allSubColumns, null, null, null, null, null);
+        if (cursor.getCount() >0) {
+            cursor.moveToFirst();
+            byte[] subByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SUB));
+            Sandwich deserializedSub = (Sandwich) Serializer.deserializeObject(subByte);
+            cursor.close();
+            return deserializedSub;
+        }else{
+            Sandwich sub = new Sandwich();
+            return sub;
+        }
+
+    }
+
     public void saveSub(String name,String comment,Float rating){
         Sandwich subSandwich = new Sandwich();
         if (saveSub.containsKey("Size")) {
