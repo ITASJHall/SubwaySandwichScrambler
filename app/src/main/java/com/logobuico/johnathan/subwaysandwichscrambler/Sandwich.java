@@ -148,19 +148,18 @@ public class Sandwich implements Serializable {
     // Will be used by the ArrayAdapter in the ListView
     @Override
     public String toString() {
-        String str = getSize() + "\n" +
-                "" + getDoubleMeat() + "\n";
+        String str = getSize() + "\n";
+        if (getDoubleMeat() != null)str += getDoubleMeat() + "\n";
         for (int i = 0; i < getMeat().size(); i++) str += getMeat().get(i).getItem() + "\n";
         str += getBread().getItem() + "\n";
-        str += getBacon() + "\n";
-        str += getAmountOfCheese() + "\n";
+        if (getBacon()!=null)str += getBacon() + "\n";
+        if (getAmountOfCheese()!=null)str += getAmountOfCheese() + "\n";
         if (getAmountOfCheese() == null) {
             for (int i = 0; i < getCheese().size(); i++)
                 str += getCheese().get(i).getItem() + "\n";
         }
-        str += getToasted() + "\n";
-        if (getNoVeg() == null)
-            str += getNoVeg() + "\n";
+        if (getToasted()!=null)str += getToasted() + "\n";
+        if (getNoVeg() != null)str += getNoVeg() + "\n";
         if (getNoVeg() == null) {
             for (int i = 0; i < getVeggies().size(); i++)
                 str += getVeggies().get(i).getItem() + "\n";
