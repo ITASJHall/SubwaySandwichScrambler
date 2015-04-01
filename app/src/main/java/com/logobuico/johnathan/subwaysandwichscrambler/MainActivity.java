@@ -31,9 +31,6 @@ public class MainActivity extends ListActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -105,7 +102,8 @@ public class MainActivity extends ListActivity  {
                 }
                 break;
             case R.id.viewSaved:
-                
+                Intent viewIntent = new Intent(getApplicationContext(),ViewSavedSubs.class);
+                startActivity(viewIntent);
                 break;
         }
        datasource.close();

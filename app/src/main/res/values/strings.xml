@@ -5,5 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_save_sub">SaveSub</string>
     <string name="save_title">Enter the info below to save the sub</string>
+    <string name="title_activity_view_saved_subs">ViewSavedSubs</string>
 
 </resources>
