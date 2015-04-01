@@ -171,6 +171,9 @@ public class Randomize {
                 seasoningsA.add(ran[9]);
                 seasoningsA.add(4);
                 ingredients.put("Seasonings", seasoningsA);
+            } else if (ran[9] ==1 || ran[9]==2){
+                seasoningsA.add(ran[9]);
+                seasoningsA.add(4);
             } else {
                 ArrayList<Integer> arrayThree = new ArrayList<>();
                 for (int i = 1; i <= 4; i++)arrayThree.add(i);
