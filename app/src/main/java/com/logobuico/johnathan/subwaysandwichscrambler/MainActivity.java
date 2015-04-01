@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -59,28 +60,39 @@ public class MainActivity extends ListActivity  {
             case R.id.save:
                 if (getListAdapter().getCount() > 0) {
                     final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    //setting the title for the dialog box
                     alert.setTitle(R.string.save_title);
+                    //setting the layout for the dialog box
                     LayoutInflater factory = LayoutInflater.from(this);
                     final View textEntryView = factory.inflate(R.layout.text_entry, null);
+                    //input for name
                     final EditText input1 = (EditText) textEntryView.findViewById(R.id.EditText1);
+                    //input for comments
                     final EditText input2 = (EditText) textEntryView.findViewById(R.id.EditText2);
+                    //rating input
                     final RatingBar input3 = (RatingBar) textEntryView.findViewById(R.id.ratingBar);
+                    //setting colour of rating stars
                     LayerDrawable stars = (LayerDrawable)input3.getProgressDrawable();
                     stars.getDrawable(1).setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                     stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
                     stars.getDrawable(0).setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_ATOP);
-
-
+                    //setting the view
                     alert.setView(textEntryView);
+
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            //datasource.open();
-                            String name = input1.getText().toString().trim();
-                            String comment = input2.getText().toString().trim();
-                            Log.i("SubRating",""+input3.getRating());
-                           // datasource.saveSub(name);
-                            String save = "Saved";
-                            Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
+                            if (input1.getText().toString().isEmpty()){
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(),"Invalid Name entry", Toast.LENGTH_LONG).show();
+                            }else {
+                                datasource.open();
+                                String name = input1.getText().toString().trim();
+                                String comment = input2.getText().toString().trim();
+                                Float rating = input3.getRating();
+                                datasource.saveSub(name, comment, rating);
+                                String save = "Saved";
+                                Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -89,6 +101,7 @@ public class MainActivity extends ListActivity  {
                         }
                     });
                     alert.show();
+
                 }
                 break;
         }

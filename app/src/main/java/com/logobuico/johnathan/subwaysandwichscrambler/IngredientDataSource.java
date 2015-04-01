@@ -26,7 +26,8 @@ public class IngredientDataSource {
     private String[] allColumns = {MySQLiteHelper.ID_COLUMN,
             MySQLiteHelper.COLUMN_NAME};
     private String[] allSubColumns = {MySQLiteHelper.ID_COLUMN,
-            MySQLiteHelper.COLUMN_SUB};
+            MySQLiteHelper.COLUMN_NAME,MySQLiteHelper.COLUMN_COMMENT,
+            MySQLiteHelper.COLUMN_RATING,MySQLiteHelper.COLUMN_SUB};
     private Map<String, ArrayList<Ingredient>> saveSub = new HashMap<>();
 
     public IngredientDataSource(Context context) {
@@ -90,7 +91,7 @@ public class IngredientDataSource {
 
     }
 
-    public void saveSub(String name){
+    public void saveSub(String name,String comment,Float rating){
         Sandwich subSandwich = new Sandwich();
         if (saveSub.containsKey("Size")) {
             String sizeStr = saveSub.get("Size").toString();
@@ -143,6 +144,8 @@ public class IngredientDataSource {
         byte[] subBytes = Serializer.serializeObject(subSandwich);
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
+        values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
+        values.put(MySQLiteHelper.COLUMN_RATING, rating);
         values.put(MySQLiteHelper.COLUMN_SUB, subBytes);
         database.insert(MySQLiteHelper.TABLE_SUBS, null, values);
 
