@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import java.lang.reflect.Array;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,17 +92,23 @@ public class IngredientDataSource {
 
     }
 
-    public List<Sandwich> getAllSubs() {
-        List<Sandwich> sandwiches = new ArrayList<Sandwich>();
+    public ArrayList getAllSubs() {
+        ArrayList sandwiches = new ArrayList<>();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_SUBS,
                 allSubColumns, null, null, null, null, null);
         Log.d("SubList",""+cursor.getCount());
         if (cursor.getCount() >0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
+                ArrayList sub = new ArrayList<>();
+                String name = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_NAME));
+                sub.add(name);
+                String message = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_COMMENT));
+                sub.add(message);
                 byte[] subByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SUB));
                 Sandwich deserializedSub = (Sandwich) Serializer.deserializeObject(subByte);
-                sandwiches.add(deserializedSub);
+                sub.add(deserializedSub);
+                sandwiches.add(sub);
                 cursor.moveToNext();
             }
             cursor.close();

@@ -51,7 +51,7 @@ public class MainActivity extends ListActivity  {
             case R.id.random:
                 adapter.clear();
                 List<Ingredient> values = datasource.getAllIngredients();
-                adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_expandable_list_item_1, values);
+                adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1, values);
                 setListAdapter(adapter);
                 break;
             case R.id.save:

@@ -1,5 +1,6 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import android.app.Activity;
 import android.app.ExpandableListActivity;
 import android.app.ListActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -23,11 +24,12 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class ViewSavedSubs extends ExpandableListActivity {
-    private static final String PARENT_KEY = "pKey";
-    private static final String CHILD_KEY = "cKey";
+public class ViewSavedSubs extends Activity {
 
-    private ExpandableListAdapter mAdapter;
+   private ExpandableListAdapter listAdapter;
+   private ExpandableListView expListView;
+   private List<String> listDataHeader;
+   private HashMap<String, String> listDataChild;
 
     private IngredientDataSource datasource;
 
@@ -36,46 +38,16 @@ public class ViewSavedSubs extends ExpandableListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_saved_subs);
 
-        datasource = new IngredientDataSource(this);
-        datasource.open();
-        List<Sandwich> values = datasource.getAllSubs();
-      ///  Log.d("SubList", values.toString());
-       // ArrayAdapter<Sandwich> adapter = new ArrayAdapter<Sandwich>(this, android.R.layout.simple_expandable_list_item_1,values);
-        //setListAdapter(adapter);
-        datasource.close();
+        // get the listview
+        expListView = (ExpandableListView) findViewById(R.id.Elist);
 
-        ExpandableListView elv = (ExpandableListView) findViewById(android.R.id.list);
+        // preparing list data
+        prepareListData();
 
-        List<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
-        List<List<Map<String, String>>> childData = new ArrayList<List<Map<String, String>>>();
+        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this,listDataHeader,listDataChild);
 
-        Map<String, String> curGroupMap = new HashMap<String, String>();
-        groupData.add(curGroupMap);
-        curGroupMap.put(PARENT_KEY, "Hello");
-        curGroupMap.put(CHILD_KEY, "First Order System Response");
-
-        List<Map<String, String>> children = new ArrayList<Map<String, String>>();
-
-        Map<String, String> curChildMap = new HashMap<String, String>();
-        children.add(curChildMap);
-        for (int i=0; i<values.size();i++) {
-            curChildMap.put(CHILD_KEY, values.get(i).toString());
-        }
-       // curChildMap.put(CHILD_KEY, "Second Order System");
-
-        childData.add(children);
-
-        // Set up our adapter
-        mAdapter = new SimpleExpandableListAdapter(this, groupData,
-                android.R.layout.simple_expandable_list_item_1, new String[] {
-                PARENT_KEY, CHILD_KEY }, new int[] {
-                android.R.id.text1, android.R.id.text2 }, childData,
-                android.R.layout.simple_expandable_list_item_2, new String[] {
-                PARENT_KEY, CHILD_KEY }, new int[] {
-                android.R.id.text1, android.R.id.text2 });
-
-        elv.setAdapter(mAdapter);
-
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
        // ListView button = getListView();
        // button.setOnItemClickListener(new AdapterView.OnItemClickListener() {
        //     @Override
@@ -86,6 +58,26 @@ public class ViewSavedSubs extends ExpandableListActivity {
 
       //      }
       //  });
+
+    }
+    private void prepareListData() {
+        datasource = new IngredientDataSource(this);
+        datasource.open();
+        ArrayList<ArrayList> values = datasource.getAllSubs();
+        datasource.close();
+
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, String>();
+
+        // Adding child data
+        for (int i=0;i<values.size();i++){
+            listDataHeader.add(values.get(i).get(0).toString() + "\n" +values.get(i).get(1).toString());
+        }
+        Log.i("SubPopulate",""+listDataHeader.size());
+        for (int i=0;i<listDataHeader.size();i++){
+            listDataChild.put(listDataHeader.get(i), values.get(i).get(2).toString()); // Header, Child data
+            Log.i("SubPopulate",values.get(i).get(2).toString());
+        }
 
     }
 
