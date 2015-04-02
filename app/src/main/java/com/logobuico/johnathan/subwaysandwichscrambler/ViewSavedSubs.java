@@ -30,6 +30,7 @@ public class ViewSavedSubs extends Activity {
    private ExpandableListView expListView;
    private List<String> listDataHeader;
    private HashMap<String, String> listDataChild;
+    private HashMap<String, Float> listRateHeader;
 
     private IngredientDataSource datasource;
 
@@ -44,7 +45,7 @@ public class ViewSavedSubs extends Activity {
         // preparing list data
         prepareListData();
 
-        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this,listDataHeader,listDataChild);
+        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this,listDataHeader,listRateHeader,listDataChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -68,15 +69,17 @@ public class ViewSavedSubs extends Activity {
 
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, String>();
+        listRateHeader= new HashMap<String, Float>();
 
         // Adding child data
         for (int i=0;i<values.size();i++){
-            listDataHeader.add(values.get(i).get(0).toString() + "\n" +values.get(i).get(1).toString());
+            listDataHeader.add("Name:  "+values.get(i).get(0).toString() + "\nComment:  " +values.get(i).get(1).toString());
         }
-        Log.i("SubPopulate",""+listDataHeader.size());
         for (int i=0;i<listDataHeader.size();i++){
-            listDataChild.put(listDataHeader.get(i), values.get(i).get(2).toString()); // Header, Child data
-            Log.i("SubPopulate",values.get(i).get(2).toString());
+            listRateHeader.put(listDataHeader.get(i), Float.parseFloat(values.get(i).get(2).toString())); // Header, Child data
+        }
+        for (int i=0;i<listDataHeader.size();i++){
+            listDataChild.put(listDataHeader.get(i), values.get(i).get(3).toString()); // Header, Child data
         }
 
     }

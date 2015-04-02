@@ -105,6 +105,8 @@ public class IngredientDataSource {
                 sub.add(name);
                 String message = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_COMMENT));
                 sub.add(message);
+                Float rating = cursor.getFloat(cursor.getColumnIndex(MySQLiteHelper.COLUMN_RATING));
+                sub.add(rating);
                 byte[] subByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SUB));
                 Sandwich deserializedSub = (Sandwich) Serializer.deserializeObject(subByte);
                 sub.add(deserializedSub);
