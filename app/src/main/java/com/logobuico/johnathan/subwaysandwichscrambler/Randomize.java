@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Randomize {
 
-    public Map<String,ArrayList> getRandomizedIngredients() {
+    public Map<String, ArrayList> getRandomizedIngredients() {
         @SuppressWarnings("unchecked")
 
 
@@ -56,7 +56,7 @@ public class Randomize {
         if (ran[0] == 1) {
             size = "6 inch";
         } else {
-            size="Footlong";
+            size = "Footlong";
         }
         sizeA.add(size);
         ingredients.put("Size", sizeA);
@@ -64,15 +64,15 @@ public class Randomize {
         //Adding bacon
         if (ran[2] == 5) {
             String bacon;
-            bacon="Add Bacon";
+            bacon = "Add Bacon";
             baconA.add(bacon);
             ingredients.put("Bacon", baconA);
         }
 
         //Adding meat and double meat
-        if (ran[1] == 20 && ran[3]!=17) {
+        if (ran[1] == 20 && ran[3] != 17) {
             String doubleMeat;
-            doubleMeat="Double Meat";
+            doubleMeat = "Double Meat";
             doubleMeatA.add(doubleMeat);
             ingredients.put("DoubleMeat", doubleMeatA);
             arrayTwo[3] = r.nextInt(20 - min) + min;
@@ -91,40 +91,40 @@ public class Randomize {
         //adding cheese and double cheese
         if (ran[8] == 1) {
             String doubleCheese;
-            doubleCheese="Double Cheese";
+            doubleCheese = "Double Cheese";
             doubleCheeseA.add(doubleCheese);
             ingredients.put("DoubleCheese", doubleCheeseA);
             arrayTwo[12] = r.nextInt(5 - min) + min;
             cheeseA.add(arrayTwo[12]);
             cheeseA.add(ran[12]);
             ingredients.put("Cheese", cheeseA);
-        } else if(ran[8]==20) {
+        } else if (ran[8] == 20) {
             String noCheese;
-            noCheese="No Cheese";
+            noCheese = "No Cheese";
             doubleCheeseA.add(noCheese);
             ingredients.put("DoubleCheese", doubleCheeseA);
-        }else {
+        } else {
             cheeseA.add(ran[12]);
             ingredients.put("Cheese", cheeseA);
         }
 
         //Is it Toasted
         if (ran[5] == 1) {
-           String toasted ;
-            toasted="Toasted";
+            String toasted;
+            toasted = "Toasted";
             toastedA.add(toasted);
             ingredients.put("Toasted", toastedA);
         }
 
         //Number of Veggies and adding that Number
-        if (ran[4] == 1 && ran[3]!=16) {
-           String veg ;
+        if (ran[4] == 1 && ran[3] != 16) {
+            String veg;
             veg = "No Veg";
             noVegA.add(veg);
             ingredients.put("NoVeg", noVegA);
         } else if (ran[4] > 0 && ran[4] != 11) {
             ArrayList<Integer> arrayThree = new ArrayList<>();
-            for (int i = 1; i <= 11; i++)arrayThree.add(i);
+            for (int i = 1; i <= 11; i++) arrayThree.add(i);
             vegA.add(ran[10]);
             int first = ran[10] - 1;
             //Log.d("SubwayTest", "Compare  "+arrayThree.get((ran[10]-1))+" FIRST: "+arrayThree.get(first)+ " ORG: "+ran[10]);
@@ -153,7 +153,7 @@ public class Randomize {
             ingredients.put("Dressing", dressingA);
         } else {
             ArrayList<Integer> arrayThree = new ArrayList<>();
-            for (int i = 1; i <= 9; i++)arrayThree.add(i);
+            for (int i = 1; i <= 9; i++) arrayThree.add(i);
             int first = ran[11] - 1;
             arrayThree.remove(first);
             dressingA.add(ran[11]);
@@ -167,16 +167,24 @@ public class Randomize {
             seasoningsA.add(ran[9]);
             ingredients.put("Seasonings", seasoningsA);
         } else {
+
             if (ran[9] == 3) {
                 seasoningsA.add(ran[9]);
                 seasoningsA.add(4);
                 ingredients.put("Seasonings", seasoningsA);
-            } else if (ran[9] ==1 || ran[9]==2){
+            } else if (ran[9] == 1 || ran[9] == 2) {
+                ArrayList<Integer> arrayThree = new ArrayList<>();
+                for (int i = 1; i <= 4; i++) arrayThree.add(i);
+                int first = ran[9] - 1;
+                arrayThree.remove(first);
+                arrayThree.remove(arrayThree.indexOf(3));
                 seasoningsA.add(ran[9]);
-                seasoningsA.add(4);
+                arrayTwo[9] = r.nextInt(arrayThree.size());
+                seasoningsA.add(arrayThree.get(arrayTwo[9]));
+                ingredients.put("Seasonings", seasoningsA);
             } else {
                 ArrayList<Integer> arrayThree = new ArrayList<>();
-                for (int i = 1; i < 4; i++)arrayThree.add(i);
+                for (int i = 1; i <= 4; i++) arrayThree.add(i);
                 int first = ran[9] - 1;
                 arrayThree.remove(first);
                 seasoningsA.add(ran[9]);

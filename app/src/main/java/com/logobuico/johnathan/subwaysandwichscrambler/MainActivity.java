@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class MainActivity extends ListActivity  {
     private IngredientDataSource datasource;
-
+    private int saved;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,57 +50,84 @@ public class MainActivity extends ListActivity  {
        datasource.open();
         switch (view.getId()) {
             case R.id.random:
+                saved = 0;
                 adapter.clear();
                 List<Ingredient> values = datasource.getAllIngredients();
                 adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1, values);
                 setListAdapter(adapter);
+                Log.i("SaveSub","Hash: "+saved+" vs "+getListAdapter().hashCode());
                 break;
             case R.id.save:
-                if (getListAdapter().getCount() > 0) {
-                    final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                    //setting the title for the dialog box
-                    alert.setTitle(R.string.save_title);
-                    //setting the layout for the dialog box
-                    LayoutInflater factory = LayoutInflater.from(this);
-                    final View textEntryView = factory.inflate(R.layout.text_entry, null);
-                    //input for name
-                    final EditText input1 = (EditText) textEntryView.findViewById(R.id.EditText1);
-                    //input for comments
-                    final EditText input2 = (EditText) textEntryView.findViewById(R.id.EditText2);
-                    //rating input
-                    final RatingBar input3 = (RatingBar) textEntryView.findViewById(R.id.ratingBar);
-                    //setting colour of rating stars
-                    LayerDrawable stars = (LayerDrawable)input3.getProgressDrawable();
-                    stars.getDrawable(1).setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-                    stars.getDrawable(0).setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_ATOP);
-                    //setting the view
-                    alert.setView(textEntryView);
+                if (getListAdapter().getCount() > 0){
+                    if(saved != getListAdapter().hashCode()) {
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                        //setting the title for the dialog box
+                        alert.setTitle(R.string.save_title);
+                        //setting the layout for the dialog box
+                        LayoutInflater factory = LayoutInflater.from(this);
+                        final View textEntryView = factory.inflate(R.layout.text_entry, null);
+                        //input for name
+                        final EditText input1 = (EditText) textEntryView.findViewById(R.id.EditText1);
+                        //input for comments
+                        final EditText input2 = (EditText) textEntryView.findViewById(R.id.EditText2);
+                        //rating input
+                        final RatingBar input3 = (RatingBar) textEntryView.findViewById(R.id.ratingBar);
+                        //setting colour of rating stars
+                        LayerDrawable stars = (LayerDrawable)input3.getProgressDrawable();
+                        stars.getDrawable(1).setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
+                        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                        stars.getDrawable(0).setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_ATOP);
+                        //setting the view
+                        alert.setView(textEntryView);
 
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input1.getText().toString().isEmpty()){
-                                dialog.dismiss();
-                                Toast.makeText(getApplicationContext(),"Invalid Name entry", Toast.LENGTH_LONG).show();
-                            }else {
-                                datasource.open();
-                                String name = input1.getText().toString().trim();
-                                String comment = input2.getText().toString().trim();
-                                Float rating = input3.getRating();
-                                datasource.saveSub(name, comment, rating);
-                                String save = "Saved";
-                                Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
+                        alert.setNeutralButton("Picture", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
                             }
-                        }
-                    });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-                    alert.show();
+                        });
+                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if (input1.getText().toString().isEmpty()){
+                                    dialog.dismiss();
+                                    Toast.makeText(getApplicationContext(),"Invalid Name entry", Toast.LENGTH_LONG).show();
+                                }else {
+                                    datasource.open();
+                                    String name = input1.getText().toString().trim();
+                                    String comment = input2.getText().toString().trim();
+                                    Float rating = input3.getRating();
+                                    datasource.saveSub(name, comment, rating);
+                                    saved = getListAdapter().hashCode();
+                                    String save = "Saved";
+                                    Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
 
+                        final AlertDialog dialog = alert.create();
+                        dialog.show();
+                        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View v)
+                            {
+                                Boolean wantToCloseDialog = false;
+                                //Do stuff, possibly set wantToCloseDialog to true then...
+                                if(wantToCloseDialog)dialog.dismiss();
+                                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                            }
+                        });
+
+
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Entry Already Saved", Toast.LENGTH_LONG).show();
+                    }
                 }
+
                 break;
             case R.id.viewSaved:
                 Intent viewIntent = new Intent(getApplicationContext(),ViewSavedSubs.class);
@@ -107,6 +135,15 @@ public class MainActivity extends ListActivity  {
                 break;
         }
        datasource.close();
+    }
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override
