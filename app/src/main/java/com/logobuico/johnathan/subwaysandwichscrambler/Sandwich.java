@@ -165,10 +165,14 @@ public class Sandwich implements Serializable {
             for (int i = 0; i < getVeggies().size(); i++)
                 str += getVeggies().get(i).getItem() + "\n";
         }
-        for (int i = 0; i < getDressing().size(); i++)
-            str += getDressing().get(i).getItem() + "\n";
-        for (int i = 0; i < getSeasoning().size(); i++)
-            str += getSeasoning().get(i).getItem() + "\n";
+        if (getDressing() != null) {
+            for (int i = 0; i < getDressing().size(); i++)
+                str += getDressing().get(i).getItem() + "\n";
+        }
+        if (getSeasoning() !=null) {
+            for (int i = 0; i < getSeasoning().size(); i++)
+                str += getSeasoning().get(i).getItem() + "\n";
+        }
 
         return str;
     }

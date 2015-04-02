@@ -176,7 +176,7 @@ public class Randomize {
                 seasoningsA.add(4);
             } else {
                 ArrayList<Integer> arrayThree = new ArrayList<>();
-                for (int i = 1; i <= 4; i++)arrayThree.add(i);
+                for (int i = 1; i < 4; i++)arrayThree.add(i);
                 int first = ran[9] - 1;
                 arrayThree.remove(first);
                 seasoningsA.add(ran[9]);
