@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,9 @@ import java.util.List;
 public class MainActivity extends ListActivity  {
     private IngredientDataSource datasource;
     private int saved;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    Bitmap bitMap;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +46,7 @@ public class MainActivity extends ListActivity  {
         ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(this,
                 android.R.layout.simple_list_item_1);
         setListAdapter(adapter);
+
 
     }
 
@@ -55,11 +61,11 @@ public class MainActivity extends ListActivity  {
                 List<Ingredient> values = datasource.getAllIngredients();
                 adapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1, values);
                 setListAdapter(adapter);
-                Log.i("SaveSub","Hash: "+saved+" vs "+getListAdapter().hashCode());
                 break;
             case R.id.save:
                 if (getListAdapter().getCount() > 0){
                     if(saved != getListAdapter().hashCode()) {
+
                         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
                         //setting the title for the dialog box
                         alert.setTitle(R.string.save_title);
@@ -77,6 +83,9 @@ public class MainActivity extends ListActivity  {
                         stars.getDrawable(1).setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
                         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
                         stars.getDrawable(0).setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_ATOP);
+
+
+                        imageView = (ImageView) textEntryView.findViewById(R.id.subPic);
                         //setting the view
                         alert.setView(textEntryView);
 
@@ -116,6 +125,9 @@ public class MainActivity extends ListActivity  {
                             {
                                 Boolean wantToCloseDialog = false;
                                 //Do stuff, possibly set wantToCloseDialog to true then...
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(intent,REQUEST_IMAGE_CAPTURE);
+
                                 if(wantToCloseDialog)dialog.dismiss();
                                 //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                             }
@@ -137,12 +149,20 @@ public class MainActivity extends ListActivity  {
        datasource.close();
     }
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode== RESULT_OK && intent != null){
+            // get bundle
+            Bundle extras = intent.getExtras();
+            // get bitmap
+            bitMap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(bitMap);
+
         }
     }
 
