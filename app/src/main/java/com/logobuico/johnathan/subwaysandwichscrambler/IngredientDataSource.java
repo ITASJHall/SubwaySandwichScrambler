@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -121,7 +122,7 @@ public class IngredientDataSource {
 
     }
 
-    public void saveSub(String name, String comment, Float rating) {
+    public void saveSub(String name, String comment, Float rating, Bitmap image, boolean isImage) {
         Sandwich subSandwich = new Sandwich();
         if (saveSub.containsKey("Size")) {
             String sizeStr = saveSub.get("Size").toString();
@@ -176,6 +177,10 @@ public class IngredientDataSource {
         values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
         values.put(MySQLiteHelper.COLUMN_RATING, rating);
+        if (isImage) {
+            byte[] imageBytes = Serializer.getBitmapAsByteArray(image);
+            values.put(MySQLiteHelper.COLUMN_IMAGE, imageBytes);
+        }
         values.put(MySQLiteHelper.COLUMN_SUB, subBytes);
         database.insert(MySQLiteHelper.TABLE_SUBS, null, values);
 

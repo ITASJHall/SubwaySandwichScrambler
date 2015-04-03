@@ -1,5 +1,6 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
@@ -26,7 +27,7 @@ public class Serializer {
             byte[] buf = bos.toByteArray();
 
             return buf;
-        } catch(IOException ioe) {
+        } catch (IOException ioe) {
             Log.e("serializeObject", "error", ioe);
 
             return null;
@@ -40,14 +41,21 @@ public class Serializer {
             in.close();
 
             return object;
-        } catch(ClassNotFoundException cnfe) {
+        } catch (ClassNotFoundException cnfe) {
             Log.e("deserializeObject", "class not found error", cnfe);
 
             return null;
-        } catch(IOException ioe) {
+        } catch (IOException ioe) {
             Log.e("deserializeObject", "io error", ioe);
 
             return null;
         }
+    }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+
     }
 }

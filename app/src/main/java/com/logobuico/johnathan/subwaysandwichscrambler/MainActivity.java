@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.provider.MediaStore;
@@ -103,7 +104,17 @@ public class MainActivity extends ListActivity  {
                                     String name = input1.getText().toString().trim();
                                     String comment = input2.getText().toString().trim();
                                     Float rating = input3.getRating();
-                                    datasource.saveSub(name, comment, rating);
+                                    Bitmap image;
+                                    Boolean isImage;
+                                    if (imageView.getDrawable()!=null) {
+                                        image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                                        isImage = true;
+                                    }else{
+                                        image = Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888);
+                                        isImage = false;
+                                    }
+                                    datasource.saveSub(name, comment, rating, image, isImage);
+                                    image.recycle();
                                     saved = getListAdapter().hashCode();
                                     String save = "Saved";
                                     Toast.makeText(getApplicationContext(), save, Toast.LENGTH_SHORT).show();
@@ -126,7 +137,7 @@ public class MainActivity extends ListActivity  {
                                 Boolean wantToCloseDialog = false;
                                 //Do stuff, possibly set wantToCloseDialog to true then...
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(intent,REQUEST_IMAGE_CAPTURE);
+                                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
                                 if(wantToCloseDialog)dialog.dismiss();
                                 //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.

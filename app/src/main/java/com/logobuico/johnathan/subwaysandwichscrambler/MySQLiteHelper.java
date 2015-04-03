@@ -24,9 +24,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SUB = "sub";
     public static final String COLUMN_COMMENT = "comment";
     public static final String COLUMN_RATING = "rating";
+    public static final String COLUMN_IMAGE = "image";
 
     private static final String DATABASE_NAME = "subway.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
 
     private static final String DATABASE_CREATE = "create table "
             + TABLE_BREAD + "(" + ID_COLUMN
@@ -63,7 +64,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + " integer primary key autoincrement, " + COLUMN_NAME
             + " text not null, " + COLUMN_COMMENT
             + " text, " + COLUMN_RATING
-            + " FLOA not null, " +  COLUMN_SUB
+            + " FLOA not null, " + COLUMN_IMAGE
+            + " BLOB, " +  COLUMN_SUB
             + " BLOB not null )";
 
     public void populateTables(SQLiteDatabase database) {
