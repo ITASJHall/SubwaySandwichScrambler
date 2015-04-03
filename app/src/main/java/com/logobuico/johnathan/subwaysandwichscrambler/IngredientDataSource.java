@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Array;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class IngredientDataSource {
             MySQLiteHelper.COLUMN_NAME};
     private String[] allSubColumns = {MySQLiteHelper.ID_COLUMN,
             MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_COMMENT,
-            MySQLiteHelper.COLUMN_RATING, MySQLiteHelper.COLUMN_SUB};
+            MySQLiteHelper.COLUMN_RATING,MySQLiteHelper.COLUMN_IMAGE, MySQLiteHelper.COLUMN_SUB};
     private Map<String, ArrayList<Ingredient>> saveSub = new HashMap<>();
 
     public IngredientDataSource(Context context) {
@@ -107,6 +109,12 @@ public class IngredientDataSource {
                 sub.add(message);
                 Float rating = cursor.getFloat(cursor.getColumnIndex(MySQLiteHelper.COLUMN_RATING));
                 sub.add(rating);
+                try {
+                    byte[] imageByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_IMAGE));
+                    sub.add(imageByte);
+                }catch (Exception e){
+                    Log.d("SubEntry","No image found for entry");
+                }
                 byte[] subByte = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SUB));
                 Sandwich deserializedSub = (Sandwich) Serializer.deserializeObject(subByte);
                 sub.add(deserializedSub);

@@ -1,6 +1,7 @@
 package com.logobuico.johnathan.subwaysandwichscrambler;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -25,17 +27,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, String> _listDataChild;
+    private HashMap<String, Bitmap> _listImageChild;
     private HashMap<String, Float> _listRateHeader;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,HashMap<String,Float> listRateHeader,
-                                 HashMap<String, String> listChildData) {
+                                 HashMap<String, String> listChildData,HashMap<String, Bitmap> listImageChild) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listRateHeader = listRateHeader;
         this._listDataChild = listChildData;
+        this._listImageChild = listImageChild;
     }
     public Object getRating(int groupPosition, int ratePosition){
         return this._listRateHeader.get(this._listDataHeader.get(groupPosition).toString());
+    }
+
+    public Object getImage(int groupPosition, int imagePosition){
+        return this._listImageChild.get(this._listDataHeader.get(groupPosition));
     }
 
         @Override
@@ -53,7 +61,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
-
+        final Bitmap image = (Bitmap) getImage(groupPosition,childPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,7 +70,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
+        ImageView imageView = (ImageView)convertView.findViewById(R.id.imageSub);
 
+        imageView.setImageBitmap(image);
         txtListChild.setText(childText);
         return convertView;
     }

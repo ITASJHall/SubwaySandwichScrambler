@@ -3,6 +3,8 @@ package com.logobuico.johnathan.subwaysandwichscrambler;
 import android.app.Activity;
 import android.app.ExpandableListActivity;
 import android.app.ListActivity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SimpleExpandableListAdapter;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +33,8 @@ public class ViewSavedSubs extends Activity {
    private ExpandableListView expListView;
    private List<String> listDataHeader;
    private HashMap<String, String> listDataChild;
-    private HashMap<String, Float> listRateHeader;
+   private HashMap<String, Bitmap> listImageChild;
+   private HashMap<String, Float> listRateHeader;
 
     private IngredientDataSource datasource;
 
@@ -45,7 +49,7 @@ public class ViewSavedSubs extends Activity {
         // preparing list data
         prepareListData();
 
-        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this,listDataHeader,listRateHeader,listDataChild);
+        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this,listDataHeader,listRateHeader,listDataChild,listImageChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -70,6 +74,7 @@ public class ViewSavedSubs extends Activity {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, String>();
         listRateHeader= new HashMap<String, Float>();
+        listImageChild= new HashMap<String, Bitmap>();
 
         // Adding child data
         for (int i=0;i<values.size();i++){
@@ -78,8 +83,18 @@ public class ViewSavedSubs extends Activity {
         for (int i=0;i<listDataHeader.size();i++){
             listRateHeader.put(listDataHeader.get(i), Float.parseFloat(values.get(i).get(2).toString())); // Header, Child data
         }
+        try {
+            for (int i = 0; i < listDataHeader.size(); i++) {
+                byte[] imageData = (byte[]) values.get(i).get(3);
+                ByteArrayInputStream imageStream = new ByteArrayInputStream(imageData);
+                Bitmap theImage = BitmapFactory.decodeStream(imageStream);
+                listImageChild.put(listDataHeader.get(i), theImage); // Header, Child data
+            }
+        }catch (Exception e){
+            Log.i("SavedSub", "No picture with entry");
+        }
         for (int i=0;i<listDataHeader.size();i++){
-            listDataChild.put(listDataHeader.get(i), values.get(i).get(3).toString()); // Header, Child data
+            listDataChild.put(listDataHeader.get(i), values.get(i).get(4).toString()); // Header, Child data
         }
 
     }
