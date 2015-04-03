@@ -83,16 +83,18 @@ public class ViewSavedSubs extends Activity {
         for (int i=0;i<listDataHeader.size();i++){
             listRateHeader.put(listDataHeader.get(i), Float.parseFloat(values.get(i).get(2).toString())); // Header, Child data
         }
-        try {
+
             for (int i = 0; i < listDataHeader.size(); i++) {
+                try {
                 byte[] imageData = (byte[]) values.get(i).get(3);
                 ByteArrayInputStream imageStream = new ByteArrayInputStream(imageData);
                 Bitmap theImage = BitmapFactory.decodeStream(imageStream);
                 listImageChild.put(listDataHeader.get(i), theImage); // Header, Child data
+                }catch (Exception e){
+                    Log.i("SavedSub", "No picture with entry");
+                }
             }
-        }catch (Exception e){
-            Log.i("SavedSub", "No picture with entry");
-        }
+
         for (int i=0;i<listDataHeader.size();i++){
             listDataChild.put(listDataHeader.get(i), values.get(i).get(4).toString()); // Header, Child data
         }
