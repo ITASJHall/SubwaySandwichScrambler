@@ -33,10 +33,13 @@
             android:layout_height="wrap_content"
             android:text="View Saved Subs"
             android:onClick="onClick"
-            android:id="@+id/viewSaved" />
+            android:id="@+id/viewSaved"
+            android:layout_gravity="center_horizontal" />
 
 
     </LinearLayout>
+
+
 
     <ListView
         android:id="@android:id/list"
