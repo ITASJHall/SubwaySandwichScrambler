@@ -6,5 +6,6 @@
     <string name="title_activity_save_sub">SaveSub</string>
     <string name="save_title">Enter the info below to save the sub</string>
     <string name="title_activity_view_saved_subs">ViewSavedSubs</string>
+    <string name="facebook_app_id">875192032544518</string>
 
 </resources>
