@@ -5,6 +5,8 @@ import android.app.ExpandableListActivity;
 import android.app.ListActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,12 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SimpleExpandableListAdapter;
 
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareOpenGraphAction;
+import com.facebook.share.model.ShareOpenGraphContent;
+import com.facebook.share.model.ShareOpenGraphObject;
+import com.facebook.share.widget.ShareButton;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class ViewSavedSubs extends Activity {
+public class ViewSavedSubs extends ActionBarActivity {
 
    private ExpandableListAdapter listAdapter;
    private ExpandableListView expListView;
@@ -117,7 +125,29 @@ public class ViewSavedSubs extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_share) {
+
+            ShareButton shareButton = (ShareButton)findViewById(R.id.share);
+            ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
+                    .putString("og:type", "fitness.course")
+                    .putString("og:title", "Sample Course")
+                    .putString("og:description", "This is a sample course.")
+                    .putInt("fitness:duration:value", 100)
+                    .putString("fitness:duration:units", "s")
+                    .putInt("fitness:distance:value", 12)
+                    .putString("fitness:distance:units", "km")
+                    .putInt("fitness:speed:value", 5)
+                    .putString("fitness:speed:units", "m/s")
+                    .build();
+            ShareOpenGraphAction action = new ShareOpenGraphAction.Builder()
+                    .setActionType("fitness.runs")
+                    .putObject("fitness:course", object)
+                    .build();
+            ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
+                    .setPreviewPropertyName("fitness:course")
+                    .setAction(action)
+                    .build();
+            shareButton.setShareContent(content);
             return true;
         }
 
