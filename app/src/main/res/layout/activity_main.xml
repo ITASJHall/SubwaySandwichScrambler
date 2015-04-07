@@ -9,27 +9,28 @@
         android:id="@+id/group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 
         <Button
            android:id="@+id/random"
-           android:layout_width="wrap_content"
+           android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:layout_gravity="left"
            android:text="Randomize Sub"
+            android:layout_gravity="center_horizontal"
            android:onClick="onClick" />
 
         <Button
-         android:layout_width="wrap_content"
+         android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:text="Save Sub"
          android:onClick="onClick"
+         android:layout_gravity="center_horizontal"
          android:id="@+id/save" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="View Saved Subs"
             android:onClick="onClick"
