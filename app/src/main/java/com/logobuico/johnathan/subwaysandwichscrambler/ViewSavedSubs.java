@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class ViewSavedSubs extends ActionBarActivity {
+public class ViewSavedSubs extends Activity {
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
