@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#FFFF00">
 
     <LinearLayout
         android:id="@+id/group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#32cd32">
 
 
         <Button
@@ -35,7 +37,8 @@
             android:text="View Saved Subs"
             android:onClick="onClick"
             android:id="@+id/viewSaved"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColorHighlight="#FFFF00" />
 
 
     </LinearLayout>
