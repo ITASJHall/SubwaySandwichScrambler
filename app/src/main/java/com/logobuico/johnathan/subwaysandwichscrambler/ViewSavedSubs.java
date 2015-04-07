@@ -37,12 +37,13 @@ import java.util.Objects;
 
 public class ViewSavedSubs extends ActionBarActivity {
 
-   private ExpandableListAdapter listAdapter;
-   private ExpandableListView expListView;
-   private List<String> listDataHeader;
-   private HashMap<String, String> listDataChild;
-   private HashMap<String, Bitmap> listImageChild;
-   private HashMap<String, Float> listRateHeader;
+    private ExpandableListAdapter listAdapter;
+    private ExpandableListView expListView;
+    private List<String> listDataHeader;
+    private HashMap<String, String> listDataChild;
+    private HashMap<String, Bitmap> listImageChild;
+    private HashMap<String, Float> listRateHeader;
+    private HashMap<String, ShareOpenGraphContent> listShareHeader;
 
     private IngredientDataSource datasource;
 
@@ -57,22 +58,23 @@ public class ViewSavedSubs extends ActionBarActivity {
         // preparing list data
         prepareListData();
 
-        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this,listDataHeader,listRateHeader,listDataChild,listImageChild);
+        listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this, listDataHeader, listRateHeader, listDataChild, listImageChild, listShareHeader);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
-       // ListView button = getListView();
-       // button.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-       //     @Override
-       //     public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
+        // ListView button = getListView();
+        // button.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //     @Override
+        //     public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
 
-         //           Object sandwich = adapter.getItemAtPosition(position);
+        //           Object sandwich = adapter.getItemAtPosition(position);
 
 
-      //      }
-      //  });
+        //      }
+        //  });
 
     }
+
     private void prepareListData() {
         datasource = new IngredientDataSource(this);
         datasource.open();
@@ -81,29 +83,47 @@ public class ViewSavedSubs extends ActionBarActivity {
 
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, String>();
-        listRateHeader= new HashMap<String, Float>();
-        listImageChild= new HashMap<String, Bitmap>();
+        listRateHeader = new HashMap<String, Float>();
+        listImageChild = new HashMap<String, Bitmap>();
+        listShareHeader = new HashMap<String, ShareOpenGraphContent>();
 
         // Adding child data
-        for (int i=0;i<values.size();i++){
-            listDataHeader.add("Name:  "+values.get(i).get(0).toString() + "\nComment:  " +values.get(i).get(1).toString());
+        for (int i = 0; i < values.size(); i++) {
+            listDataHeader.add("Name:  " + values.get(i).get(0).toString() + "\nComment:  " + values.get(i).get(1).toString());
         }
-        for (int i=0;i<listDataHeader.size();i++){
+        for (int i = 0; i < listDataHeader.size(); i++) {
             listRateHeader.put(listDataHeader.get(i), Float.parseFloat(values.get(i).get(2).toString())); // Header, Child data
         }
 
-            for (int i = 0; i < listDataHeader.size(); i++) {
-                try {
+        for (int i = 0; i < listDataHeader.size(); i++) {
+            try {
                 byte[] imageData = (byte[]) values.get(i).get(3);
                 ByteArrayInputStream imageStream = new ByteArrayInputStream(imageData);
                 Bitmap theImage = BitmapFactory.decodeStream(imageStream);
                 listImageChild.put(listDataHeader.get(i), theImage); // Header, Child data
-                }catch (Exception e){
-                    Log.i("SavedSub", "No picture with entry");
-                }
+            } catch (Exception e) {
+                Log.i("SavedSub", "No picture with entry");
             }
+        }
+        for (int i = 0; i < listDataHeader.size(); i++) {
 
-        for (int i=0;i<listDataHeader.size();i++){
+            ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
+                    .putString("og:type", "subscrambler:sandwich")
+                    .putString("og:title", values.get(i).get(0).toString())
+                    .putString("og:description", values.get(i).get(4).toString())
+                    .build();
+            ShareOpenGraphAction action = new ShareOpenGraphAction.Builder()
+                    .setActionType("subscrambler:eat")
+                    .putObject("subscrambler:sandwich", object)
+                    .build();
+            ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
+                    .setPreviewPropertyName("subscrambler:sandwich")
+                    .setAction(action)
+                    .build();
+            listShareHeader.put(listDataHeader.get(i), content);
+        }
+
+        for (int i = 0; i < listDataHeader.size(); i++) {
             listDataChild.put(listDataHeader.get(i), values.get(i).get(4).toString()); // Header, Child data
         }
 
@@ -125,31 +145,10 @@ public class ViewSavedSubs extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_share) {
+        // if (id == R.id.action_share) {
 
-            ShareButton shareButton = (ShareButton)findViewById(R.id.share);
-            ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
-                    .putString("og:type", "fitness.course")
-                    .putString("og:title", "Sample Course")
-                    .putString("og:description", "This is a sample course.")
-                    .putInt("fitness:duration:value", 100)
-                    .putString("fitness:duration:units", "s")
-                    .putInt("fitness:distance:value", 12)
-                    .putString("fitness:distance:units", "km")
-                    .putInt("fitness:speed:value", 5)
-                    .putString("fitness:speed:units", "m/s")
-                    .build();
-            ShareOpenGraphAction action = new ShareOpenGraphAction.Builder()
-                    .setActionType("fitness.runs")
-                    .putObject("fitness:course", object)
-                    .build();
-            ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
-                    .setPreviewPropertyName("fitness:course")
-                    .setAction(action)
-                    .build();
-            shareButton.setShareContent(content);
-            return true;
-        }
+        //    return true;
+        // }
 
         return super.onOptionsItemSelected(item);
     }
