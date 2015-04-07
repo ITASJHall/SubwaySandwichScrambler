@@ -42,17 +42,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
+/**
+ * Class used to view the saved subs and share then to facebook
+ */
 public class ViewSavedSubs extends Activity {
 
+    //adapter to store expanded list view data
     private ExpandableListAdapter listAdapter;
+
+    //expanded list view to be populated
     private ExpandableListView expListView;
+
+    //arrays to store saved sub data
     private List<String> listDataHeader;
     private HashMap<String, String> listDataChild;
     private HashMap<String, Bitmap> listImageChild;
     private HashMap<String, Float> listRateHeader;
     private HashMap<String, ShareOpenGraphContent> listShareHeader;
 
+    //database connection
     private IngredientDataSource datasource;
 
     @Override
@@ -63,46 +71,43 @@ public class ViewSavedSubs extends Activity {
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.Elist);
 
-        // preparing list data
+        // population the lists arrays with data
         prepareListData();
 
+        //inflating the expandable list adapter with the data
         listAdapter = new com.logobuico.johnathan.subwaysandwichscrambler.ExpandableListAdapter(this, listDataHeader, listRateHeader, listDataChild, listImageChild, listShareHeader);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
-        // ListView button = getListView();
-        // button.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        //     @Override
-        //     public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
 
-        //           Object sandwich = adapter.getItemAtPosition(position);
-
-
-        //      }
-        //  });
+        /** TODO: Create edit view for saved subs  */
 
     }
 
     private void prepareListData() {
+        //opening database connection and getting all saved subs
         datasource = new IngredientDataSource(this);
         datasource.open();
         ArrayList<ArrayList> values = datasource.getAllSubs();
         datasource.close();
 
+        //arrays to store the data for each element in the expandable list view
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, String>();
         listRateHeader = new HashMap<String, Float>();
         listImageChild = new HashMap<String, Bitmap>();
         listShareHeader = new HashMap<String, ShareOpenGraphContent>();
 
-        // Adding child data
+        // Adding Title and comment
         for (int i = 0; i < values.size(); i++) {
             listDataHeader.add("Name:  " + values.get(i).get(0).toString() + "\nComment:  " + values.get(i).get(1).toString());
         }
+        //Adding Rating
         for (int i = 0; i < listDataHeader.size(); i++) {
             listRateHeader.put(listDataHeader.get(i), Float.parseFloat(values.get(i).get(2).toString())); // Header, Child data
         }
 
+        //Adding image, if one exists
         for (int i = 0; i < listDataHeader.size(); i++) {
             try {
                 byte[] imageData = (byte[]) values.get(i).get(3);
@@ -113,6 +118,8 @@ public class ViewSavedSubs extends Activity {
                 Log.i("SavedSub", "No picture with entry");
             }
         }
+
+        //Creating the share content for the sub
         for (int i = 0; i < listDataHeader.size(); i++) {
 
             ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
@@ -131,34 +138,11 @@ public class ViewSavedSubs extends Activity {
             listShareHeader.put(listDataHeader.get(i), content);
         }
 
+        //adding the saved sub
         for (int i = 0; i < listDataHeader.size(); i++) {
             listDataChild.put(listDataHeader.get(i), values.get(i).get(4).toString()); // Header, Child data
         }
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_view_saved_subs, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        // if (id == R.id.action_share) {
-
-        //    return true;
-        // }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

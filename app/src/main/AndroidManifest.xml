@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.logobuico.johnathan.subwaysandwichscrambler" >
-
+    <!-- Permission needed for the SQLite database -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Needed for taking a picture -->
     <uses-feature android:name="android.hardware.camera2" android:required="true"/>
     <uses-permission android:name="android.permission.camera"/>
-    <uses-permission android:name="android.permission.INTERNET"/>    
+    <!-- Needed to share to facebook -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <!-- Randomization activity -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
@@ -23,17 +26,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- View saved activity -->
         <activity
             android:name=".ViewSavedSubs"
             android:label="@string/title_activity_view_saved_subs" >
         </activity>
-
+        <!-- Sharing activity -->
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
-
+        <!-- Needed for sending the app id to facebook -->
         <provider android:authorities="com.facebook.app.FacebookContentProvider875192032544518"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true" />
