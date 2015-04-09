@@ -33,12 +33,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "subway.db";
     private static final int DATABASE_VERSION = 18;
 
-    //creating the tables sql statments
+    //creating the tables sql statments for each of the tables in the database
     private static final String DATABASE_CREATE = "create table "
             + TABLE_BREAD + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
             + " text not null);";
-
     public static final String CREATE_DRESSING_TABLE = "CREATE TABLE "
             + TABLE_DRESSING + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
@@ -63,7 +62,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + TABLE_MEAT + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
             + " text not null);";
-
+    //BLOB type is used to hole byte[] arrays
     public static final String CREATE_SUB_TABLE = "CREATE TABLE "
             + TABLE_SUBS + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
@@ -73,7 +72,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + " BLOB, " +  COLUMN_SUB
             + " BLOB not null )";
 
-    //populating the tables
+    /**
+     * populating the tables with predefined values
+     * TODO:Have these values be populated from a XML file or pulled from a remote database
+     * @param database
+     */
     public void populateTables(SQLiteDatabase database) {
         ContentValues values = new ContentValues();
         //adding breads
@@ -204,7 +207,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    //calling the tables sql statments and creating the tables
+    /**
+     * calling the tables sql statments and creating the tables
+     * @param database
+     */
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
@@ -217,7 +223,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         populateTables(database);
     }
 
-    //Upgrading the database
+    /**
+     * Upgrading the database
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(MySQLiteHelper.class.getName(),

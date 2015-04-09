@@ -47,7 +47,12 @@ public class IngredientDataSource {
         dbHelper.close();
     }
 
-    //getting the ingredient String from the database
+    /**
+     * getting the ingredient String from the database
+     * @param itemId type of ingredient
+     * @param id ingredient number
+     * @return Ingredient
+     */
     public Ingredient getIngredient(int itemId, int id) {
         String table;
         //switch to pull records from the correct table
@@ -81,7 +86,11 @@ public class IngredientDataSource {
         return entry;
     }
 
-    //Not used yet, but to be used when editing a saved entry
+    /**
+     * Not used yet, but to be used when editing a saved entry
+     * @param id sandwich entry id
+     * @return sandwich
+     */
     public Sandwich getSub(int id) {
         //querying the database
         Cursor cursor = database.query(MySQLiteHelper.TABLE_SUBS,
@@ -100,7 +109,10 @@ public class IngredientDataSource {
 
     }
 
-    //getting all saved sub. Used for ViewSavedSubs activity
+    /**
+     * getting all saved sub. Used for ViewSavedSubs activity
+     * @return arraylist of saved subs
+     */
     public ArrayList getAllSubs() {
         //used to hold all subs pull from the database
         ArrayList sandwiches = new ArrayList<>();
@@ -142,7 +154,14 @@ public class IngredientDataSource {
 
     }
 
-    //saving a randomized Sub to the database
+    /**
+     * saving a randomized Sub to the database
+     * @param name of the sandwich
+     * @param comment on the sandwich
+     * @param rating of the sandwich
+     * @param image of the sandwich
+     * @param isImage was a picture taken
+     */
     public void saveSub(String name, String comment, Float rating, Bitmap image, boolean isImage) {
         Sandwich subSandwich = new Sandwich();
         //checking and adding all field of a sub then adding them to the new sandwich object
@@ -215,7 +234,10 @@ public class IngredientDataSource {
 
     }
 
-    //The main method for generating a random sub
+    /**
+     * The main method for generating a random sub
+     * @return list of all the ingredient in the randomized sandwich
+     */
     public List<Ingredient> getAllIngredients() {
         //getting the random sub integer values
         Randomize randomize = new Randomize();
@@ -367,7 +389,11 @@ public class IngredientDataSource {
         return ingredients;
     }
 
-    //used for getting the Ingredient String from the database
+    /**
+     * used for getting the Ingredient String from the database
+     * @param cursor
+     * @return ingredients
+     */
     private Ingredient cursorToIngredient(Cursor cursor) {
         Ingredient ingredient = new Ingredient();
         ingredient.setId(cursor.getLong(0));

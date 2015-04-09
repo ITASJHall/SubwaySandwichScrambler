@@ -47,7 +47,10 @@ public class MainActivity extends ListActivity  {
     ImageView imageView;
 
 
-    // Main onCreate method
+    /**
+     * Main onCreate method for the MainActivity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,7 +68,10 @@ public class MainActivity extends ListActivity  {
 
     }
 
-    //onClick for each button
+    /**
+     * onClick for each button on the main layout
+     * @param view
+     */
     public void onClick(View view){
        @SuppressWarnings("unchecked")
        ArrayAdapter<Ingredient> adapter = (ArrayAdapter<Ingredient>) getListAdapter();
@@ -235,7 +241,9 @@ public class MainActivity extends ListActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    //Opening datasource and logging facebook info
+    /**
+     * Opening datasource and logging facebook info
+     */
     @Override
     protected void onResume() {
         datasource.open();
@@ -245,7 +253,9 @@ public class MainActivity extends ListActivity  {
         AppEventsLogger.activateApp(this);
     }
 
-    //Closing datasource and logging facebook info
+    /**
+     * Closing datasource and logging facebook info
+     */
     @Override
     protected void onPause() {
         datasource.close();

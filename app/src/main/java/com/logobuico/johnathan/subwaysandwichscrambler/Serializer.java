@@ -17,7 +17,11 @@ import java.io.ObjectOutputStream;
  */
 public class Serializer {
 
-    //serializing the object
+    /**
+     * serializing the object
+     * @param o sandwich object
+     * @return byte[] array
+     */
     public static byte[] serializeObject(Object o) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -37,7 +41,11 @@ public class Serializer {
         }
     }
 
-    //deserializing the object
+    /**
+     * deserializing the object
+     * @param b byte[] array
+     * @return object
+     */
     public static Object deserializeObject(byte[] b) {
         try {
             ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(b));
@@ -56,7 +64,11 @@ public class Serializer {
         }
     }
 
-    //converting a Bitmap to a byte[] array for saving images to the database
+    /**
+     * converting a Bitmap to a byte[] array for saving images to the database
+     * @param bitmap
+     * @return byte[] array
+     */
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);

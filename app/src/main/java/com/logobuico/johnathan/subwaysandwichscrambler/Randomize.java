@@ -14,7 +14,10 @@ import java.util.Random;
  */
 public class Randomize {
 
-    //Generates a randomized sub and returns interger values
+    /**
+     * Generates a randomized sub and returns interger values
+     * @return Map<String,Arraylist></> of random numbers
+     */
     public Map<String, ArrayList> getRandomizedIngredients() {
         @SuppressWarnings("unchecked")
 

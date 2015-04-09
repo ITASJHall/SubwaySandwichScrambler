@@ -63,6 +63,11 @@ public class ViewSavedSubs extends Activity {
     //database connection
     private IngredientDataSource datasource;
 
+    /**
+     * Main onCreate for view saved sub
+     * populates a list with all saved subs
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +89,9 @@ public class ViewSavedSubs extends Activity {
 
     }
 
+    /**
+     * Call the getAllSubs method and Formats the data for the ExpandableListAdapter class
+     */
     private void prepareListData() {
         //opening database connection and getting all saved subs
         datasource = new IngredientDataSource(this);
@@ -145,6 +153,9 @@ public class ViewSavedSubs extends Activity {
 
     }
 
+    /**
+     * Closes database connection on app pause
+     */
     @Override
     protected void onPause() {
         datasource.close();
