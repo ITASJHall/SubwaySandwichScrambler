@@ -9,14 +9,16 @@ import java.util.Map;
 import java.util.Random;
 
 /**
+ * This class it called when a user requests a randomized sub.
  * Created by Johnathan on 3/28/2015.
  */
 public class Randomize {
 
+    //Generates a randomized sub and returns interger values
     public Map<String, ArrayList> getRandomizedIngredients() {
         @SuppressWarnings("unchecked")
 
-
+        //Arrarys to store all the different types of ingredients
         Map<String, ArrayList> ingredients = new HashMap<>();
         ArrayList<String> sizeA = new ArrayList<>();
         ArrayList<String> baconA = new ArrayList<>();
@@ -31,6 +33,8 @@ public class Randomize {
         ArrayList<Integer> dressingA = new ArrayList<>();
         ArrayList<Integer> seasoningsA = new ArrayList<>();
 
+        // generating the random numbers
+        //TODO: have these numbers not be hard coded but have them equal the number of entries in the respective table
         int min = 1;
         Random r = new Random();
         int[] ran = new int[15];
@@ -71,6 +75,7 @@ public class Randomize {
 
         //Adding meat and double meat
         if (ran[1] == 20 && ran[3] != 17) {
+            //double meat
             String doubleMeat;
             doubleMeat = "Double Meat";
             doubleMeatA.add(doubleMeat);
@@ -80,6 +85,7 @@ public class Randomize {
             meatA.add(ran[3]);
             ingredients.put("Meat", meatA);
         } else {
+            //one meat
             meatA.add(ran[3]);
             ingredients.put("Meat", meatA);
         }
@@ -90,6 +96,7 @@ public class Randomize {
 
         //adding cheese and double cheese
         if (ran[8] == 1) {
+            //if double cheese
             String doubleCheese;
             doubleCheese = "Double Cheese";
             doubleCheeseA.add(doubleCheese);
@@ -99,11 +106,13 @@ public class Randomize {
             cheeseA.add(ran[12]);
             ingredients.put("Cheese", cheeseA);
         } else if (ran[8] == 20) {
+            //if no cheese
             String noCheese;
             noCheese = "No Cheese";
             doubleCheeseA.add(noCheese);
             ingredients.put("DoubleCheese", doubleCheeseA);
         } else {
+            //if one cheese
             cheeseA.add(ran[12]);
             ingredients.put("Cheese", cheeseA);
         }
@@ -118,29 +127,26 @@ public class Randomize {
 
         //Number of Veggies and adding that Number
         if (ran[4] == 1 && ran[3] != 16) {
+            //no veggies
             String veg;
             veg = "No Veg";
             noVegA.add(veg);
             ingredients.put("NoVeg", noVegA);
         } else if (ran[4] > 0 && ran[4] != 11) {
+            //one or more veggies
             ArrayList<Integer> arrayThree = new ArrayList<>();
             for (int i = 1; i <= 11; i++) arrayThree.add(i);
             vegA.add(ran[10]);
             int first = ran[10] - 1;
-            //Log.d("SubwayTest", "Compare  "+arrayThree.get((ran[10]-1))+" FIRST: "+arrayThree.get(first)+ " ORG: "+ran[10]);
             arrayThree.remove(first);
-            //Log.d("SubwayTest", "num Veg "+ran[4]);
             for (int i = 1; i < ran[4]; i++) {
-                //Log.d("SubwayTest", "A3 Size before "+arrayThree.size());
                 int index = r.nextInt(arrayThree.size());
-                //Log.d("SubwayTest", "Veg "+arrayThree.get(index));
                 vegA.add(arrayThree.get(index));
-                //Log.d("SubwayTest", "Compare "+arrayThree.get(index)+" INDEX: "+ index);
                 arrayThree.remove(index);
             }
-
             ingredients.put("Veg", vegA);
         } else if (ran[4] == 11) {
+            //all veggies
             for (int i = 1; i < 12; i++) {
                 vegA.add(i);
             }
@@ -149,9 +155,11 @@ public class Randomize {
         }
         //adding dressing(s)
         if (ran[6] == 1) {
+            //one dessing
             dressingA.add(ran[11]);
             ingredients.put("Dressing", dressingA);
         } else {
+            //two dressing
             ArrayList<Integer> arrayThree = new ArrayList<>();
             for (int i = 1; i <= 9; i++) arrayThree.add(i);
             int first = ran[11] - 1;
@@ -164,15 +172,17 @@ public class Randomize {
 
         //adding seasonings
         if (ran[13] == 1) {
+            //one seasoning
             seasoningsA.add(ran[9]);
             ingredients.put("Seasonings", seasoningsA);
         } else {
-
             if (ran[9] == 3) {
+                //if seasoning is salt and pepper and seasonings equals 2
                 seasoningsA.add(ran[9]);
                 seasoningsA.add(4);
                 ingredients.put("Seasonings", seasoningsA);
             } else if (ran[9] == 1 || ran[9] == 2) {
+                //if seasoning is salt or pepper then don't choose salt + pepper
                 ArrayList<Integer> arrayThree = new ArrayList<>();
                 for (int i = 1; i <= 4; i++) arrayThree.add(i);
                 int first = ran[9] - 1;
@@ -183,6 +193,7 @@ public class Randomize {
                 seasoningsA.add(arrayThree.get(arrayTwo[9]));
                 ingredients.put("Seasonings", seasoningsA);
             } else {
+                //if parmesan then choose any, no duplicates
                 ArrayList<Integer> arrayThree = new ArrayList<>();
                 for (int i = 1; i <= 4; i++) arrayThree.add(i);
                 int first = ran[9] - 1;
@@ -193,7 +204,7 @@ public class Randomize {
                 ingredients.put("Seasonings", seasoningsA);
             }
         }
-
+        //returning full list of randomized numbers
         return ingredients;
     }
 

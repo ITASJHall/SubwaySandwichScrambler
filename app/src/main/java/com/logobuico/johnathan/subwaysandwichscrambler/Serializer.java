@@ -11,10 +11,13 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 /**
+ * Class used to seralize the sandwich so they can be saved to the database
+ * also used to convert Bitmap to a byte[] array
  * Created by Johnathan on 3/31/2015.
  */
 public class Serializer {
 
+    //serializing the object
     public static byte[] serializeObject(Object o) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -34,6 +37,7 @@ public class Serializer {
         }
     }
 
+    //deserializing the object
     public static Object deserializeObject(byte[] b) {
         try {
             ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(b));
@@ -52,6 +56,7 @@ public class Serializer {
         }
     }
 
+    //converting a Bitmap to a byte[] array for saving images to the database
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);

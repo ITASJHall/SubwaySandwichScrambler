@@ -33,7 +33,9 @@ import com.facebook.appevents.AppEventsLogger;
 
 import java.util.List;
 
-
+/**
+ * The main activity where the user can randomize a sub, save that sub and go to view the saved subs
+ */
 public class MainActivity extends ListActivity  {
     //database connection
     private IngredientDataSource datasource;
@@ -164,32 +166,29 @@ public class MainActivity extends ListActivity  {
                         //showing the dialog
                         final AlertDialog dialog = alert.create();
                         dialog.show();
-                        //setting the
+                        //setting the Picture button
                         dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener()
                         {
                             @Override
                             public void onClick(View v)
                             {
                                 Boolean wantToCloseDialog = false;
-                                //Do stuff, possibly set wantToCloseDialog to true then...
+                                //passing a take image intent
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
                                 if(wantToCloseDialog)dialog.dismiss();
-                                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                             }
                         });
-
-
-
                     }else{
+                        //if the user tries to save the entry again
                         Toast.makeText(getApplicationContext(),"Entry Already Saved", Toast.LENGTH_LONG).show();
                     }
                 }
-
                 break;
             //view saved button
             case R.id.viewSaved:
+                //opening the saved sub activity
                 Intent viewIntent = new Intent(getApplicationContext(),ViewSavedSubs.class);
                 startActivity(viewIntent);
                 break;
@@ -199,9 +198,9 @@ public class MainActivity extends ListActivity  {
     }
 
 
-
-
-
+    /**
+     * Used for grabbing the picture that the user takes
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
@@ -221,7 +220,6 @@ public class MainActivity extends ListActivity  {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -236,6 +234,8 @@ public class MainActivity extends ListActivity  {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //Opening datasource and logging facebook info
     @Override
     protected void onResume() {
         datasource.open();
@@ -245,6 +245,7 @@ public class MainActivity extends ListActivity  {
         AppEventsLogger.activateApp(this);
     }
 
+    //Closing datasource and logging facebook info
     @Override
     protected void onPause() {
         datasource.close();

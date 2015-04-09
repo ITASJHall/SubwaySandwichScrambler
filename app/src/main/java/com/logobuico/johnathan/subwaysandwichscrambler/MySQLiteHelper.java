@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
+ * Creation of the database and inserts
  * Created by Johnathan on 3/28/2015.
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+    //Table names
     public static final String TABLE_BREAD = "breads";
     public static final String TABLE_DRESSING = "dressings";
     public static final String TABLE_CHEESE = "cheese";
@@ -19,6 +21,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_MEAT = "meats";
     public static final String TABLE_SUBS = "subs";
 
+    //column names
     public static final String ID_COLUMN = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_SUB = "sub";
@@ -26,9 +29,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RATING = "rating";
     public static final String COLUMN_IMAGE = "image";
 
+    //database name and version
     private static final String DATABASE_NAME = "subway.db";
     private static final int DATABASE_VERSION = 18;
 
+    //creating the tables sql statments
     private static final String DATABASE_CREATE = "create table "
             + TABLE_BREAD + "(" + ID_COLUMN
             + " integer primary key autoincrement, " + COLUMN_NAME
@@ -68,6 +73,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + " BLOB, " +  COLUMN_SUB
             + " BLOB not null )";
 
+    //populating the tables
     public void populateTables(SQLiteDatabase database) {
         ContentValues values = new ContentValues();
         //adding breads
@@ -198,6 +204,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    //calling the tables sql statments and creating the tables
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
@@ -210,6 +217,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         populateTables(database);
     }
 
+    //Upgrading the database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(MySQLiteHelper.class.getName(),
@@ -221,7 +229,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SEASONING);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_VEGGIE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEAT);
+        //to be removed once the subs table is finialized, save subs table should not be removed on update
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBS);
+
         onCreate(db);
     }
 }

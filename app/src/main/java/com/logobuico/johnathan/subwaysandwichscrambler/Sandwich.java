@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * sandwich class to help model a sub sandwich
+ * isSerializable so to be saved to the database
  * Created by Johnathan on 3/29/2015.
  */
 public class Sandwich implements Serializable {
@@ -22,6 +24,7 @@ public class Sandwich implements Serializable {
     private ArrayList<Ingredient> dressing;
     private ArrayList<Ingredient> seasoning;
 
+// Getters and setters
     public long getId() {
         return id;
     }
