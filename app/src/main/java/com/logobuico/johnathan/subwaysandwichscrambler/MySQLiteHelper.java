@@ -31,7 +31,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     //database name and version
     private static final String DATABASE_NAME = "subway.db";
-    private static final int DATABASE_VERSION = 18;
+    private static final int DATABASE_VERSION = 19;
 
     //creating the tables sql statments for each of the tables in the database
     private static final String DATABASE_CREATE = "create table "
